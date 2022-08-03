@@ -1,20 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AJAX Project</title>
   <link rel="icon" href="images/favicon.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
-  <header>
+  <header class="darkgrey">
+    <div class="container">
+      <div class="row">
+        <div class="column-full pd-tb-1">
+          <a href="#" data-view="home" class="home-button bold">WatchIt</a>
+        </div>
+      </div>
+    </div>
   </header>
-  <main>
+  <main class="container">
+    <div data-view="home">
+      <div>
+        <div class="row">
+          <div class="col-half">
+            <div class="row align-center justify-center">
+              <div class="chevron-wrapper">
+                <i class="fa-solid fa-chevron-left"></i>
+              </div>
+              <div class="col-half pd-tb-2">
+                <img src="images/topgun.jpg" alt="topgun">
+                <div class="row circle-container">
+                  <div class="col-full text-center">
+                    <i class="fa-solid fa-circle" data-index="0"></i>
+                    <i class="fa-regular fa-circle" data-index="1"></i>
+                    <i class="fa-regular fa-circle" data-index="2"></i>
+                    <i class="fa-regular fa-circle" data-index="3"></i>
+                    <i class="fa-regular fa-circle" data-index="4"></i>
+                    <i class="fa-regular fa-circle" data-index="5"></i>
+                    <i class="fa-regular fa-circle" data-index="6"></i>
+                    <i class="fa-regular fa-circle" data-index="7"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="chevron-wrapper text-end">
+                <i class="fa-solid fa-chevron-right"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-half">
+            <div class="tab-container row space-evenly pd-tb-2">
+              <a href="#" data-view="top-rated" class="tab active">Top-rated</a>
+              <a href="#" data-view="trending" class="tab">Trending</a>
+              <a href="#" data-view="popular" class="tab">Popular</a>
+              <a href="#" data-view="upcoming" class="tab">Upcoming</a>
+            </div>
+            <div class="view-container row space-between pd-tb-1">
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
   </main>
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
 </body>
+
 </html>

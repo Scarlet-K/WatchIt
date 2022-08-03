@@ -1,0 +1,52 @@
+.hidden {
+  display: none !important;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.col-full,
+.col-half {
+  width: 100%;
+}
+
+.col-auto {
+  width: auto;
+}
+
+.col-fourth {
+  width: 25%;
+}
+
+@media screen and (min-width: 880px) {
+  .col-full,
+  .col-half,
+  .col-auto {
+    padding: 0 0.75rem;
+  }
+
+  .col-half {
+    width: 50%;
+  }
+
+  .poster-wrapper {
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 880px) {
+  div.circle-container {
+    display: none;
+  }
+
+  div.chevron-wrapper {
+    display: none;
+  }
+}

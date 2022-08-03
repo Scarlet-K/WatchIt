@@ -1,0 +1,98 @@
+body {
+  background-color: #242429;
+  font-family: "Proza Libre", sans-serif;
+  color: white;
+}
+
+header {
+  background-color: #343a40;
+}
+
+a {
+  padding: 0 1rem;
+  text-decoration: none;
+  color: white;
+}
+
+img {
+  width: 100%;
+}
+
+div.poster-wrapper > img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}
+
+.home-button {
+  font-size: 1.5rem;
+}
+
+.list-button {
+  font-size: 1rem;
+}
+
+.chevron-wrapper {
+  width: auto;
+  padding: 0 2rem;
+}
+
+.poster-wrapper {
+  width: 100%;
+}
+
+.tab {
+  font-size: 1rem;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.space-evenly {
+  justify-content: space-evenly;
+}
+
+.text-end {
+  text-align: end;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.fa-chevron-left,
+.fa-chevron-right {
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+i.fa-circle {
+  padding: 0.3rem;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.pd-tb-1 {
+  padding: 1rem 0;
+}
+
+.pd-tb-2 {
+  padding: 2rem 0;
+}
+
+.pd-lr-1 {
+  padding: 0 1rem;
+}
+
+.pd-lr {
+  padding: 0 2rem;
+}
