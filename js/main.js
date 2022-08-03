@@ -1,5 +1,20 @@
-var images = ['images/topgun.jpg', 'images/parasite.jpg', 'images/jurassic.jpg', 'images/lightyear.jpg', 'images/lord.jpg', 'images/pulp.jpg', 'images/gray man.jpg', 'images/name.jpg'];
-var $img = document.querySelector('img');
+function getNowPlayingImg() {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://api.themoviedb.org/3/movie/now_playing?api_key=d7a558bf3c164e7e0d8761462a9973e2');
+  xhr.responseType = 'json';
+  xhr.addEventListener('load', function () {
+    for (var i = 0; i < 8; i++) {
+      images.push('https://image.tmdb.org/t/p/w500/' + xhr.response.results[i].poster_path);
+      $carouselImg.setAttribute('src', images[0]);
+    }
+  });
+  xhr.send();
+}
+
+getNowPlayingImg();
+
+var images = [];
+var $carouselImg = document.querySelector('.carousel-image');
 var intervalID = setInterval(getNextIndex, 3000);
 var index = 0;
 var $leftArrow = document.querySelector('.fa-chevron-left');
@@ -28,7 +43,7 @@ function handleCircles(event) {
     index = dataIndex;
     for (var i = 0; i < $circleList.length; i++) {
       if (JSON.stringify(i) === dataIndex) {
-        $img.setAttribute('src', images[i]);
+        $carouselImg.setAttribute('src', images[i]);
         $circleList[i].classList.add('fa-solid');
         $circleList[i].classList.remove('fa-regular');
       } else {
@@ -42,14 +57,14 @@ function handleCircles(event) {
 function getPreviousIndex() {
   if (index !== 0) {
     index--;
-    $img.setAttribute('src', images[index]);
+    $carouselImg.setAttribute('src', images[index]);
     $circleList[index].classList.add('fa-solid');
     $circleList[index].classList.remove('fa-regular');
     $circleList[index + 1].classList.remove('fa-solid');
     $circleList[index + 1].classList.add('fa-regular');
   } else {
     index = images.length - 1;
-    $img.setAttribute('src', images[index]);
+    $carouselImg.setAttribute('src', images[index]);
     $circleList[images.length - 1].classList.add('fa-solid');
     $circleList[images.length - 1].classList.remove('fa-regular');
     $circleList[0].classList.remove('fa-solid');
@@ -60,14 +75,14 @@ function getPreviousIndex() {
 function getNextIndex() {
   if (index < images.length - 1) {
     index++;
-    $img.setAttribute('src', images[index]);
+    $carouselImg.setAttribute('src', images[index]);
     $circleList[index].classList.add('fa-solid');
     $circleList[index].classList.remove('fa-regular');
     $circleList[index - 1].classList.remove('fa-solid');
     $circleList[index - 1].classList.add('fa-regular');
   } else {
     index = 0;
-    $img.setAttribute('src', images[0]);
+    $carouselImg.setAttribute('src', images[0]);
     $circleList[0].classList.add('fa-solid');
     $circleList[0].classList.remove('fa-regular');
     $circleList[images.length - 1].classList.remove('fa-solid');
