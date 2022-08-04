@@ -32,12 +32,17 @@ div.poster-wrapper > img {
   font-size: 1rem;
 }
 
+.view {
+  display: flex;
+  justify-content: space-between;
+}
+
 .chevron-wrapper {
   width: auto;
   padding: 0 2rem;
 }
 
-.poster-wrapper {
+.poster {
   width: 100%;
 }
 
@@ -85,8 +90,8 @@ i.fa-circle {
   padding: 1rem 0;
 }
 
-.pd-tb-2 {
-  padding: 2rem 0;
+.pd-t2 {
+  padding-top: 2rem;
 }
 
 .pd-lr-1 {
@@ -95,4 +100,12 @@ i.fa-circle {
 
 .pd-lr {
   padding: 0 2rem;
+}
+
+.pd {
+  padding: 2rem;
+}
+
+.border-r {
+  border-radius: 0.3rem;
 }

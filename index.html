@@ -26,45 +26,65 @@
   </header>
   <main class="container">
     <div data-view="home">
-      <div>
-        <div class="row">
-          <div class="col-half">
-            <div class="row align-center justify-center">
-              <div class="chevron-wrapper">
-                <i class="fa-solid fa-chevron-left"></i>
-              </div>
-              <div class="col-half pd-tb-2 carousel-image-wrapper">
-                <img src="" alt="now-playing" class="carousel-image">
-                <div class="row circle-container">
-                  <div class="col-full text-center">
-                    <i class="fa-solid fa-circle" data-index="0"></i>
-                    <i class="fa-regular fa-circle" data-index="1"></i>
-                    <i class="fa-regular fa-circle" data-index="2"></i>
-                    <i class="fa-regular fa-circle" data-index="3"></i>
-                    <i class="fa-regular fa-circle" data-index="4"></i>
-                    <i class="fa-regular fa-circle" data-index="5"></i>
-                    <i class="fa-regular fa-circle" data-index="6"></i>
-                    <i class="fa-regular fa-circle" data-index="7"></i>
-                  </div>
+      <div class="row">
+        <div class="col-half">
+          <div class="row align-center justify-center pd-t2">
+            <div class="chevron-wrapper">
+              <i class="fa-solid fa-chevron-left"></i>
+            </div>
+            <div class="col-half pd-t2">
+              <img src="" alt="now-playing" class="carousel-image border-r">
+              <div class="row circle-container">
+                <div class="col-full text-center">
+                  <i class="fa-solid fa-circle" data-index="0"></i>
+                  <i class="fa-regular fa-circle" data-index="1"></i>
+                  <i class="fa-regular fa-circle" data-index="2"></i>
+                  <i class="fa-regular fa-circle" data-index="3"></i>
+                  <i class="fa-regular fa-circle" data-index="4"></i>
+                  <i class="fa-regular fa-circle" data-index="5"></i>
+                  <i class="fa-regular fa-circle" data-index="6"></i>
+                  <i class="fa-regular fa-circle" data-index="7"></i>
                 </div>
               </div>
-              <div class="chevron-wrapper text-end">
-                <i class="fa-solid fa-chevron-right"></i>
-              </div>
             </div>
-          </div>
-          <div class="col-half">
-            <div class="tab-container row space-evenly pd-tb-2">
-              <a href="#" data-view="top-rated" class="tab active">Top-rated</a>
-              <a href="#" data-view="trending" class="tab">Trending</a>
-              <a href="#" data-view="popular" class="tab">Popular</a>
-              <a href="#" data-view="upcoming" class="tab">Upcoming</a>
-            </div>
-            <div class="view-container row space-between pd-tb-1">
+            <div class="chevron-wrapper text-end">
+              <i class="fa-solid fa-chevron-right"></i>
             </div>
           </div>
         </div>
 
+        <div class="col-half">
+          <div class="tab-container row space-evenly pd-t2">
+            <a href="#" data-view="top-rated" class="tab active">Top-rated</a>
+            <a href="#" data-view="trending" class="tab">Trending</a>
+            <a href="#" data-view="popular" class="tab">Popular</a>
+            <a href="#" data-view="upcoming" class="tab">Upcoming</a>
+          </div>
+
+          <div class="view-container pd-tb-1">
+            <div class="view" data-view="top-rated">
+              <div class="col-third pd">
+                <img src="images/name.jpg" class="poster">
+              </div>
+            </div>
+            <div class="view hidden" data-view="trending">
+              <div class="col-third pd">
+                <img src="images/parasite.jpg" class="poster">
+              </div>
+            </div>
+            <div class="view hidden" data-view="popular">
+              <div class="col-third pd">
+                <img src="images/lord.jpg" class="poster">
+              </div>
+            </div>
+            <div class="view hidden" data-view="upcoming">
+              <div class="col-third pd">
+                <img src="images/pulp.jpg" class="poster">
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
   </main>

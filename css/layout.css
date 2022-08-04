@@ -17,17 +17,18 @@
   width: 100%;
 }
 
-.col-auto {
-  width: auto;
+.col-third {
+  width: 50%;
 }
 
-.col-fourth {
-  width: 25%;
+.col-auto {
+  width: auto;
 }
 
 @media screen and (min-width: 880px) {
   .col-full,
   .col-half,
+  .col-third,
   .col-auto {
     padding: 0 0.75rem;
   }
@@ -36,8 +37,8 @@
     width: 50%;
   }
 
-  .poster-wrapper {
-    width: 50%;
+  .col-third {
+    width: calc(100% / 3);
   }
 }
 
