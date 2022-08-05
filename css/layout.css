@@ -43,11 +43,16 @@
 }
 
 @media screen and (max-width: 880px) {
-  div.circle-container {
-    display: none;
+  div.now-playing {
+    position: static;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
   }
 
-  div.chevron-wrapper {
+  .fa-chevron-left,
+  .fa-chevron-right {
     display: none;
   }
 }

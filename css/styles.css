@@ -14,14 +14,28 @@ a {
   color: white;
 }
 
+div.tab-container > a {
+  padding: 0 1rem;
+  text-decoration: none;
+  color: grey;
+}
+
+div.tab-container > a:hover {
+  color: white;
+}
+
 img {
   width: 100%;
 }
 
-div.poster-wrapper > img {
+p {
+  padding: 1rem;
+  margin: 0;
+}
+
+.fixed {
+  position: fixed;
   width: 100%;
-  height: 300px;
-  object-fit: cover;
 }
 
 .home-button {
@@ -34,20 +48,28 @@ div.poster-wrapper > img {
 
 .view {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
-}
-
-.chevron-wrapper {
-  width: auto;
-  padding: 0 2rem;
-}
-
-.poster {
-  width: 100%;
 }
 
 .tab {
   font-size: 1rem;
+}
+
+div.tab-container > a.active {
+  color: white;
+}
+
+.now-playing {
+  position: fixed;
+  top: 1.5rem;
+  left: 0.5rem;
+  font-size: 1.5rem;
+}
+
+.poster-wrapper {
+  position: relative;
+  width: 500px;
 }
 
 .align-center {
@@ -56,6 +78,10 @@ div.poster-wrapper > img {
 
 .justify-center {
   justify-content: center;
+}
+
+.justify-end {
+  justify-content: end;
 }
 
 .space-evenly {
@@ -72,8 +98,28 @@ div.poster-wrapper > img {
 
 .fa-chevron-left,
 .fa-chevron-right {
-  font-size: 2rem;
+  font-size: 2.5rem;
+  padding: 0.5rem;
   cursor: pointer;
+}
+
+.pos-abs-left {
+  position: absolute;
+  top: 50%;
+  left: 0.2rem;
+  background-color: #e3e6e94f;
+}
+
+.pos-abs-right {
+  position: absolute;
+  top: 50%;
+  right: 0.2rem;
+  background-color: #e3e6e94f;
+}
+
+.pos-abs-left:hover,
+.pos-abs-right:hover {
+  background-color: #4d4f514f;
 }
 
 i.fa-circle {
@@ -86,16 +132,20 @@ i.fa-circle {
   font-weight: bold;
 }
 
-.pd-tb-1 {
+.pd-tb {
+  padding: 0.5rem 0;
+}
+
+.pd-tb1 {
   padding: 1rem 0;
+}
+
+.pd-tb3 {
+  padding: 3rem 0;
 }
 
 .pd-t2 {
   padding-top: 2rem;
-}
-
-.pd-lr-1 {
-  padding: 0 1rem;
 }
 
 .pd-lr {

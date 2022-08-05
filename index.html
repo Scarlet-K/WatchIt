@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,78 +12,48 @@
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/styles.css">
 </head>
-
 <body>
-  <header class="darkgrey">
+  <header class="darkgrey fixed">
     <div class="container">
       <div class="row">
-        <div class="column-full pd-tb-1">
+        <div class="column-full pd-tb">
           <a href="#" data-view="home" class="home-button bold">WatchIt</a>
         </div>
       </div>
     </div>
   </header>
-  <main class="container">
+  <main class="container pd-tb3">
     <div data-view="home">
-      <div class="row">
-        <div class="col-half">
-          <div class="row align-center justify-center pd-t2">
-            <div class="chevron-wrapper">
-              <i class="fa-solid fa-chevron-left"></i>
-            </div>
-            <div class="col-half pd-t2">
+      <div class="row justify-end">
+        <div class="col-half now-playing">
+          <div class="row justify-center pd-t2">
+            <p>Now Playing</p>
+          </div>
+          <div class="row align-center justify-center">
+            <div class="poster-wrapper pd-tb1">
+              <i class="fa-solid fa-chevron-left pos-abs-left"></i>
+              <i class="fa-solid fa-chevron-right pos-abs-right"></i>
               <img src="" alt="now-playing" class="carousel-image border-r">
-              <div class="row circle-container">
-                <div class="col-full text-center">
-                  <i class="fa-solid fa-circle" data-index="0"></i>
-                  <i class="fa-regular fa-circle" data-index="1"></i>
-                  <i class="fa-regular fa-circle" data-index="2"></i>
-                  <i class="fa-regular fa-circle" data-index="3"></i>
-                  <i class="fa-regular fa-circle" data-index="4"></i>
-                  <i class="fa-regular fa-circle" data-index="5"></i>
-                  <i class="fa-regular fa-circle" data-index="6"></i>
-                  <i class="fa-regular fa-circle" data-index="7"></i>
-                </div>
-              </div>
-            </div>
-            <div class="chevron-wrapper text-end">
-              <i class="fa-solid fa-chevron-right"></i>
             </div>
           </div>
         </div>
 
         <div class="col-half">
           <div class="tab-container row space-evenly pd-t2">
-            <a href="#" data-view="top-rated" class="tab active">Top-rated</a>
-            <a href="#" data-view="trending" class="tab">Trending</a>
-            <a href="#" data-view="popular" class="tab">Popular</a>
-            <a href="#" data-view="upcoming" class="tab">Upcoming</a>
+            <a href="#" class="tab active" data-view="top-rated">Top-rated</a>
+            <a href="#" class="tab" data-view="trending">Trending</a>
+            <a href="#" class="tab" data-view="popular">Popular</a>
+            <a href="#" class="tab" data-view="upcoming">Upcoming</a>
           </div>
 
-          <div class="view-container pd-tb-1">
-            <div class="view" data-view="top-rated">
-              <div class="col-third pd">
-                <img src="images/name.jpg" class="poster">
-              </div>
-            </div>
-            <div class="view hidden" data-view="trending">
-              <div class="col-third pd">
-                <img src="images/parasite.jpg" class="poster">
-              </div>
-            </div>
-            <div class="view hidden" data-view="popular">
-              <div class="col-third pd">
-                <img src="images/lord.jpg" class="poster">
-              </div>
-            </div>
-            <div class="view hidden" data-view="upcoming">
-              <div class="col-third pd">
-                <img src="images/pulp.jpg" class="poster">
-              </div>
-            </div>
+          <div class="view-container">
+            <div class="view top-rated" data-view="top-rated"></div>
+            <div class="view trending hidden" data-view="trending"></div>
+            <div class="view popular hidden" data-view="popular"></div>
+            <div class="view upcoming hidden" data-view="upcoming"></div>
           </div>
-
         </div>
+
       </div>
     </div>
   </main>
