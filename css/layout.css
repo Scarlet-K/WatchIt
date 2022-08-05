@@ -1,0 +1,50 @@
+.hidden {
+  display: none !important;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.col-full,
+.col-half {
+  width: 100%;
+}
+
+.col-third {
+  width: 50%;
+}
+
+.col-auto {
+  width: auto;
+}
+
+@media screen and (min-width: 768px) {
+  .col-full,
+  .col-half,
+  .col-third,
+  .col-auto {
+    padding: 0 0.75rem;
+  }
+
+  .col-half {
+    width: 50%;
+  }
+
+  .col-third {
+    width: calc(100% / 3);
+  }
+
+  .now-playing {
+    position: fixed;
+    top: 1.5rem;
+    left: 0.5rem;
+    font-size: 1.5rem;
+  }
+}
