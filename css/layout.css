@@ -25,7 +25,7 @@
   width: auto;
 }
 
-@media screen and (min-width: 880px) {
+@media screen and (min-width: 768px) {
   .col-full,
   .col-half,
   .col-third,
@@ -40,19 +40,11 @@
   .col-third {
     width: calc(100% / 3);
   }
-}
 
-@media screen and (max-width: 880px) {
-  div.now-playing {
-    position: static;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-  }
-
-  .fa-chevron-left,
-  .fa-chevron-right {
-    display: none;
+  .now-playing {
+    position: fixed;
+    top: 1.5rem;
+    left: 0.5rem;
+    font-size: 1.5rem;
   }
 }

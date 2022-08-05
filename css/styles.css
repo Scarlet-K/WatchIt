@@ -60,13 +60,6 @@ div.tab-container > a.active {
   color: white;
 }
 
-.now-playing {
-  position: fixed;
-  top: 1.5rem;
-  left: 0.5rem;
-  font-size: 1.5rem;
-}
-
 .poster-wrapper {
   position: relative;
   width: 500px;
