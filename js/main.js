@@ -52,8 +52,8 @@ function getCarouselImg() {
 }
 getCarouselImg();
 
-// change category view //
-var $topRated = document.querySelector('.top-rated');
+// change category view
+var $topRated = document.querySelector('.top_rated');
 var $trending = document.querySelector('.trending');
 var $popular = document.querySelector('.popular');
 var $upcoming = document.querySelector('.upcoming');
@@ -64,13 +64,14 @@ function getCategoryImg(string, DOMparent) {
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
     for (var i = 0; i < xhr.response.results.length; i++) {
+      var $aImg = document.createElement('a');
       var $categoryImg = document.createElement('img');
-      var $divCol = document.createElement('div');
+      $aImg.setAttribute('class', 'details col-third pd');
+      $aImg.setAttribute('id', xhr.response.results[i].id);
       $categoryImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + xhr.response.results[i].poster_path);
       $categoryImg.setAttribute('class', 'border-r');
-      $divCol.setAttribute('class', 'col-third pd');
-      $divCol.appendChild($categoryImg);
-      DOMparent.appendChild($divCol);
+      $aImg.appendChild($categoryImg);
+      DOMparent.appendChild($aImg);
     }
   });
   xhr.send();
@@ -82,22 +83,23 @@ function getTrendingImg() {
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
     for (var i = 0; i < xhr.response.results.length; i++) {
+      var $aImg = document.createElement('a');
       var $categoryImg = document.createElement('img');
-      var $divCol = document.createElement('div');
+      $aImg.setAttribute('class', 'details col-third pd');
+      $aImg.setAttribute('id', xhr.response.results[i].id);
       $categoryImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + xhr.response.results[i].poster_path);
       $categoryImg.setAttribute('class', 'border-r');
-      $divCol.setAttribute('class', 'col-third pd');
-      $divCol.appendChild($categoryImg);
-      $trending.appendChild($divCol);
+      $aImg.appendChild($categoryImg);
+      $trending.appendChild($aImg);
     }
   });
   xhr.send();
 }
 
 getCategoryImg('top_rated', $topRated);
-getTrendingImg();
-getCategoryImg('popular', $popular);
-getCategoryImg('upcoming', $upcoming);
+// getTrendingImg();
+// // getCategoryImg('popular', $popular);
+// getCategoryImg('upcoming', $upcoming);
 
 var $tabContainer = document.querySelector('.tab-container');
 var $tabList = document.querySelectorAll('.tab');
@@ -115,14 +117,29 @@ function handleTabClick(event) {
       $tabList[i].classList.remove('active');
     }
   }
-
   var $eventView = event.target.getAttribute('data-view');
 
   for (var k = 0; k < $viewList.length; k++) {
     if ($eventView === $tabList[k].getAttribute('data-view')) {
+      getTrendingImg();
+      getCategoryImg($eventView, $popular);
+      getCategoryImg($eventView, $upcoming);
       $viewList[k].classList.remove('hidden');
     } else {
       $viewList[k].classList.add('hidden');
     }
   }
 }
+
+// movie detail
+// var $mainContainer = document.querySelector('.main');
+// $mainContainer.addEventListener('click', handleImgClick);
+
+// function handleImgClick(event) {
+//   // if (!event.target.tagName === ('IMG')) {
+//   // return;
+//   // }
+//   if (event.target.tagName === ('IMG')) {
+
+//   }
+// }
