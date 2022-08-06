@@ -13,7 +13,8 @@
 }
 
 .col-full,
-.col-half {
+.col-half,
+.col-two-third {
   width: 100%;
 }
 
@@ -29,6 +30,7 @@
   .col-full,
   .col-half,
   .col-third,
+  .col-two-third,
   .col-auto {
     padding: 0 0.75rem;
   }
@@ -39,6 +41,10 @@
 
   .col-third {
     width: calc(100% / 3);
+  }
+
+  .col-two-third {
+    width: calc(200% / 3);
   }
 
   .now-playing {

@@ -17,22 +17,25 @@
     <div class="container">
       <div class="row">
         <div class="column-full pd-tb">
-          <a href="#" data-view="home" class="home-button bold">WatchIt</a>
+          <div class="row align-center">
+            <a href="#" data-view="home" class="home bold">WatchIt</a>
+            <a href="#" data-view="list" class="list">My List</a>
+          </div>
         </div>
       </div>
     </div>
   </header>
   <main class="main container pd-tb3">
-    <div data-view="home">
+    <div data-view="home" class="home">
       <div class="row justify-end">
         <div class="col-half now-playing">
           <div class="row justify-center pd-t2">
-            <p>Now Playing</p>
+            <p class="margin-0 pd-tb1">Now Playing</p>
           </div>
           <div class="row align-center justify-center">
-            <div class="poster-wrapper pd-tb1">
-              <i class="fa-solid fa-chevron-left pos-abs-left"></i>
-              <i class="fa-solid fa-chevron-right pos-abs-right"></i>
+            <div class="carousel-img-wrapper pd-tb1">
+              <button class="pos-abs-left"><i class="fa-solid fa-chevron-left"></i></button>
+              <button class="pos-abs-right"><i class="fa-solid fa-chevron-right"></i></button>
               <img src="" alt="now-playing" class="carousel-image border-r">
             </div>
           </div>
@@ -40,14 +43,14 @@
 
         <div class="col-half">
           <div class="tab-container row space-evenly pd-t2">
-            <a href="#" class="tab active" data-view="top_rated">Top-rated</a>
+            <a href="#" class="tab active" data-view="top-rated">Top-rated</a>
             <a href="#" class="tab" data-view="trending">Trending</a>
             <a href="#" class="tab" data-view="popular">Popular</a>
             <a href="#" class="tab" data-view="upcoming">Upcoming</a>
           </div>
 
           <div class="view-container">
-            <div class="view top_rated" data-view="top_rated"></div>
+            <div class="view top-rated" data-view="top-rated"></div>
             <div class="view trending hidden" data-view="trending"></div>
             <div class="view popular hidden" data-view="popular"></div>
             <div class="view upcoming hidden" data-view="upcoming"></div>
@@ -55,6 +58,35 @@
         </div>
 
       </div>
+    </div>
+
+    <div data-view="detail" class="detail hidden">
+      <div class="row pd-tb3">
+        <div class="col-half">
+          <div class="row">
+            <div class="col-full pd-lr">
+              <img src="images/jurassic.jpg">
+            </div>
+          </div>
+        </div>
+        <div class="col-half pd-lr">
+          <h2 class="margin-t0">Top Gun: Maverick</h2>
+          <p>
+            It is a long established fact that a reader will be distracted by the readable content of a page when looking at its
+            layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using
+            'Content here, content here', making it look like readable English...
+          </p>
+          <div class="pd-tb">
+            <h4>Release Date</h4>
+            <p>2022-05-24</p>
+            <h4>Production</h4>
+            <p>Paramount</p>
+            <h4>Genres</h4>
+            <p>Action, Drama</p>
+          </div>
+        </div>
+      </div>
+
     </div>
   </main>
   <script src="js/data.js"></script>

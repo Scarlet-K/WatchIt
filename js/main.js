@@ -53,7 +53,7 @@ function getCarouselImg() {
 getCarouselImg();
 
 // change category view
-var $topRated = document.querySelector('.top_rated');
+var $topRated = document.querySelector('.top-rated');
 var $trending = document.querySelector('.trending');
 var $popular = document.querySelector('.popular');
 var $upcoming = document.querySelector('.upcoming');
@@ -68,6 +68,7 @@ function getCategoryImg(string, DOMparent) {
       var $categoryImg = document.createElement('img');
       $aImg.setAttribute('class', 'details col-third pd');
       $aImg.setAttribute('id', xhr.response.results[i].id);
+      $aImg.setAttribute('href', '#');
       $categoryImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + xhr.response.results[i].poster_path);
       $categoryImg.setAttribute('class', 'border-r');
       $aImg.appendChild($categoryImg);
@@ -87,6 +88,7 @@ function getTrendingImg() {
       var $categoryImg = document.createElement('img');
       $aImg.setAttribute('class', 'details col-third pd');
       $aImg.setAttribute('id', xhr.response.results[i].id);
+      $aImg.setAttribute('href', '#');
       $categoryImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + xhr.response.results[i].poster_path);
       $categoryImg.setAttribute('class', 'border-r');
       $aImg.appendChild($categoryImg);
@@ -97,9 +99,9 @@ function getTrendingImg() {
 }
 
 getCategoryImg('top_rated', $topRated);
-// getTrendingImg();
-// // getCategoryImg('popular', $popular);
-// getCategoryImg('upcoming', $upcoming);
+getTrendingImg();
+getCategoryImg('popular', $popular);
+getCategoryImg('upcoming', $upcoming);
 
 var $tabContainer = document.querySelector('.tab-container');
 var $tabList = document.querySelectorAll('.tab');
@@ -121,9 +123,6 @@ function handleTabClick(event) {
 
   for (var k = 0; k < $viewList.length; k++) {
     if ($eventView === $tabList[k].getAttribute('data-view')) {
-      getTrendingImg();
-      getCategoryImg($eventView, $popular);
-      getCategoryImg($eventView, $upcoming);
       $viewList[k].classList.remove('hidden');
     } else {
       $viewList[k].classList.add('hidden');
@@ -132,14 +131,17 @@ function handleTabClick(event) {
 }
 
 // movie detail
-// var $mainContainer = document.querySelector('.main');
-// $mainContainer.addEventListener('click', handleImgClick);
+var $mainContainer = document.querySelector('.main');
+$mainContainer.addEventListener('click', handleImgClick);
 
-// function handleImgClick(event) {
-//   // if (!event.target.tagName === ('IMG')) {
-//   // return;
-//   // }
-//   if (event.target.tagName === ('IMG')) {
-
-//   }
-// }
+function handleImgClick(event) {
+  if (!event.target.tagName === ('IMG')) {
+    return;
+  }
+  if (event.target.tagName === ('IMG')) {
+    var $detail = document.querySelector('div.detail');
+    var $home = document.querySelector('div.home');
+    $detail.classList.remove('hidden');
+    $home.classList.add('hidden');
+  }
+}
