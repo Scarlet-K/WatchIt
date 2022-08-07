@@ -7,6 +7,15 @@
   padding: 0 1.5rem;
 }
 
+.view {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.tab-container {
+  display: flex;
+}
+
 .row {
   display: flex;
   flex-wrap: wrap;
@@ -47,10 +56,9 @@
     width: calc(200% / 3);
   }
 
-  .now-playing {
+  .carousel {
     position: fixed;
-    top: 1.5rem;
+    top: 3rem;
     left: 0.5rem;
-    font-size: 1.5rem;
   }
 }

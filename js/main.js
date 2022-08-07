@@ -1,3 +1,4 @@
+// carousel
 var images = [];
 var $carouselImg = document.querySelector('.carousel-image');
 var intervalID = setInterval(getNextIndex, 3000);
@@ -52,7 +53,7 @@ function getCarouselImg() {
 }
 getCarouselImg();
 
-// change category view
+// change category
 var $topRated = document.querySelector('.top-rated');
 var $trending = document.querySelector('.trending');
 var $popular = document.querySelector('.popular');
@@ -66,11 +67,11 @@ function getCategoryImg(string, DOMparent) {
     for (var i = 0; i < xhr.response.results.length; i++) {
       var $aImg = document.createElement('a');
       var $categoryImg = document.createElement('img');
-      $aImg.setAttribute('class', 'details col-third pd');
-      $aImg.setAttribute('id', xhr.response.results[i].id);
+      $aImg.setAttribute('class', 'col-third pd');
       $aImg.setAttribute('href', '#');
       $categoryImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + xhr.response.results[i].poster_path);
       $categoryImg.setAttribute('class', 'border-r');
+      $categoryImg.setAttribute('id', xhr.response.results[i].id);
       $aImg.appendChild($categoryImg);
       DOMparent.appendChild($aImg);
     }
@@ -86,11 +87,11 @@ function getTrendingImg() {
     for (var i = 0; i < xhr.response.results.length; i++) {
       var $aImg = document.createElement('a');
       var $categoryImg = document.createElement('img');
-      $aImg.setAttribute('class', 'details col-third pd');
-      $aImg.setAttribute('id', xhr.response.results[i].id);
+      $aImg.setAttribute('class', 'col-third pd');
       $aImg.setAttribute('href', '#');
       $categoryImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + xhr.response.results[i].poster_path);
       $categoryImg.setAttribute('class', 'border-r');
+      $categoryImg.setAttribute('id', xhr.response.results[i].id);
       $aImg.appendChild($categoryImg);
       $trending.appendChild($aImg);
     }
@@ -130,18 +131,83 @@ function handleTabClick(event) {
   }
 }
 
+// navigation bar
+var $navView = document.querySelectorAll('.navView');
+var $nav = document.querySelector('.nav');
+
+$nav.addEventListener('click', handleNavClick);
+
+function handleNavClick(event) {
+  if (!event.target.matches('.nav')) {
+    return;
+  } var $eventView = event.target.getAttribute('data-view');
+  for (var i = 0; i < $navView.length; i++) {
+    if ($eventView === $navView[i].getAttribute('data-view')) {
+      $navView[i].classList.remove('hidden');
+    } else {
+      $navView[i].classList.add('hidden');
+    }
+  }
+}
+
 // movie detail
-var $mainContainer = document.querySelector('.main');
-$mainContainer.addEventListener('click', handleImgClick);
+var $home = document.querySelector('.home');
+$home.addEventListener('click', handleImgClick);
 
 function handleImgClick(event) {
   if (!event.target.tagName === ('IMG')) {
     return;
   }
   if (event.target.tagName === ('IMG')) {
-    var $detail = document.querySelector('div.detail');
-    var $home = document.querySelector('div.home');
+    var $detail = document.querySelector('.detail');
+    var $home = document.querySelector('.home');
     $detail.classList.remove('hidden');
     $home.classList.add('hidden');
+    var targetId = event.target.id;
+    getDetails(targetId);
   }
+}
+
+var $detailPoster = document.querySelector('.detail-poster');
+var $detailInfo = document.querySelector('.detail-info');
+
+function getDetails(id) {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://api.themoviedb.org/3/movie/' + id + '?api_key=d7a558bf3c164e7e0d8761462a9973e2&language=en-US');
+  xhr.responseType = 'json';
+  xhr.addEventListener('load', function () {
+    var $img = document.createElement('img');
+    $img.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + xhr.response.poster_path);
+    $detailPoster.appendChild($img);
+    var $h2 = document.createElement('h2');
+    $h2.textContent = xhr.response.title;
+    var $p = document.createElement('p');
+    $p.textContent = xhr.response.overview;
+    $detailInfo.append($h2, $p);
+    var $div = document.createElement('div');
+    $div.setAttribute('class', 'pd-tb');
+    var $date = document.createElement('h4');
+    $date.textContent = 'Release Date';
+    var $prod = document.createElement('h4');
+    $prod.textContent = 'Production Companies';
+    var $genre = document.createElement('h4');
+    $genre.textContent = 'Genres';
+    var $dateP = document.createElement('p');
+    $dateP.textContent = xhr.response.release_date;
+    for (var i = 0; i < xhr.response.production_companies.length; i++) {
+      var $prodP = document.createElement('p');
+      $prodP.textContent = xhr.response.production_companies[i].name;
+      $prod.appendChild($prodP);
+    }
+
+    for (var k = 0; k < xhr.response.genres.length; k++) {
+      var $genreP = document.createElement('p');
+      $genreP.textContent = xhr.response.genres[k].name;
+      $genre.appendChild($genreP);
+    }
+    $date.appendChild($dateP);
+    $div.append($date, $prod, $genre);
+    $detailInfo.appendChild($div);
+  });
+  xhr.send();
 }

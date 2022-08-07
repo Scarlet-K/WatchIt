@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AJAX Project</title>
   <link rel="icon" href="images/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Padauk&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -14,83 +17,61 @@
 </head>
 <body>
   <header class="darkgrey fixed">
-    <div class="container">
-      <div class="row">
-        <div class="column-full pd-tb">
-          <div class="row align-center">
-            <a href="#" data-view="home" class="home bold">WatchIt</a>
-            <a href="#" data-view="list" class="list">My List</a>
-          </div>
+    <div class="row pd-lr">
+      <div class="column-full pd-tb">
+        <div class="row nav align-center">
+          <a href="#" class="nav bold font-1h" data-view="home">WatchIt</a>
+          <a href="#" class="nav list font-1" data-view="list">My List</a>
         </div>
       </div>
     </div>
   </header>
-  <main class="main container pd-tb3">
-    <div data-view="home" class="home">
-      <div class="row justify-end">
-        <div class="col-half now-playing">
-          <div class="row justify-center pd-t2">
-            <p class="margin-0 pd-tb1">Now Playing</p>
+  <main>
+    <div class="navView home" data-view="home">
+      <div class="row justify-end pd-tb3">
+        <div class="col-half carousel">
+          <div class="row justify-center align-center pd-t">
+            <p class="margin-0 pd-tb1 font-1h">Now Playing</p>
           </div>
           <div class="row align-center justify-center">
-            <div class="carousel-img-wrapper pd-tb1">
+            <div class="rel pd-tb1">
               <button class="pos-abs-left"><i class="fa-solid fa-chevron-left"></i></button>
+              <img src="" alt="Now-Playing" class="carousel-image border-r">
               <button class="pos-abs-right"><i class="fa-solid fa-chevron-right"></i></button>
-              <img src="" alt="now-playing" class="carousel-image border-r">
             </div>
           </div>
         </div>
-
         <div class="col-half">
-          <div class="tab-container row space-evenly pd-t2">
+          <div class="tab-container space-evenly pd-t2 font-1">
             <a href="#" class="tab active" data-view="top-rated">Top-rated</a>
             <a href="#" class="tab" data-view="trending">Trending</a>
             <a href="#" class="tab" data-view="popular">Popular</a>
             <a href="#" class="tab" data-view="upcoming">Upcoming</a>
           </div>
-
-          <div class="view-container">
+          <div class="c-view-container">
             <div class="view top-rated" data-view="top-rated"></div>
             <div class="view trending hidden" data-view="trending"></div>
             <div class="view popular hidden" data-view="popular"></div>
             <div class="view upcoming hidden" data-view="upcoming"></div>
           </div>
         </div>
-
       </div>
     </div>
 
-    <div data-view="detail" class="detail hidden">
+    <div class="navView list hidden" data-view="list"></div>
+
+    <div class="detail hidden pd-tb3" data-view="detail">
       <div class="row pd-tb3">
         <div class="col-half">
           <div class="row">
-            <div class="col-full pd-lr">
-              <img src="images/jurassic.jpg">
-            </div>
+            <div class="col-full pd-lr detail-poster"></div>
           </div>
         </div>
-        <div class="col-half pd-lr">
-          <h2 class="margin-t0">Top Gun: Maverick</h2>
-          <p>
-            It is a long established fact that a reader will be distracted by the readable content of a page when looking at its
-            layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using
-            'Content here, content here', making it look like readable English...
-          </p>
-          <div class="pd-tb">
-            <h4>Release Date</h4>
-            <p>2022-05-24</p>
-            <h4>Production</h4>
-            <p>Paramount</p>
-            <h4>Genres</h4>
-            <p>Action, Drama</p>
-          </div>
-        </div>
+        <div class="col-half pd-lr font-pad detail-info"></div>
       </div>
-
     </div>
   </main>
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
 </body>
-
 </html>

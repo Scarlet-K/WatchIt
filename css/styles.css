@@ -34,11 +34,19 @@ img {
   width: 100%;
 }
 
-.home {
+.rel {
+  position: relative;
+}
+
+.font-pad {
+  font-family: Padauk, sans-serif;
+}
+
+.font-1h {
   font-size: 1.5rem;
 }
 
-.list {
+.font-1 {
   font-size: 1rem;
 }
 
@@ -47,22 +55,8 @@ img {
   margin: auto;
 }
 
-.view {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
-.tab {
-  font-size: 1rem;
-}
-
 div.tab-container > a.active {
   color: white;
-}
-
-.carousel-img-wrapper {
-  position: relative;
 }
 
 .align-center {
@@ -134,6 +128,10 @@ button {
 
 .pd-tb3 {
   padding: 3rem 0;
+}
+
+.pd-t {
+  padding-top: 0.5rem;
 }
 
 .pd-t2 {
