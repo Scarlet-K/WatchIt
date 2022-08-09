@@ -38,8 +38,12 @@ img {
   position: relative;
 }
 
-.font-pad {
-  font-family: Padauk, sans-serif;
+.font-work {
+  font-family: "Work Sans", sans-serif;
+}
+
+.font-ver {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .font-1h {
@@ -145,6 +149,10 @@ button {
 
 .pd {
   padding: 2rem;
+}
+
+.pd-0 {
+  padding: 0;
 }
 
 .margin-0 {

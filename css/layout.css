@@ -59,6 +59,6 @@
   .carousel {
     position: fixed;
     top: 3rem;
-    left: 0.5rem;
+    left: 0.01rem;
   }
 }
