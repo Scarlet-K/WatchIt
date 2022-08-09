@@ -7,7 +7,7 @@
   padding: 0 1.5rem;
 }
 
-.view {
+.c-view {
   display: flex;
   flex-wrap: wrap;
 }

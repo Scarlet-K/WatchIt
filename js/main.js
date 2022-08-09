@@ -65,15 +65,17 @@ function getCategoryImg(string, DOMparent) {
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
     for (var i = 0; i < xhr.response.results.length; i++) {
-      var $aImg = document.createElement('a');
+      var $div = document.createElement('div');
+      var $a = document.createElement('a');
       var $categoryImg = document.createElement('img');
-      $aImg.setAttribute('class', 'col-third pd');
-      $aImg.setAttribute('href', '#');
+      $div.setAttribute('class', 'col-third pd');
+      $a.setAttribute('href', '#');
       $categoryImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + xhr.response.results[i].poster_path);
-      $categoryImg.setAttribute('class', 'border-r');
+      $categoryImg.setAttribute('class', 'border-r cursor-p');
       $categoryImg.setAttribute('id', xhr.response.results[i].id);
-      $aImg.appendChild($categoryImg);
-      DOMparent.appendChild($aImg);
+      $div.appendChild($a);
+      $a.appendChild($categoryImg);
+      DOMparent.appendChild($div);
     }
   });
   xhr.send();
@@ -85,15 +87,17 @@ function getTrendingImg() {
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
     for (var i = 0; i < xhr.response.results.length; i++) {
-      var $aImg = document.createElement('a');
+      var $div = document.createElement('div');
+      var $a = document.createElement('a');
       var $categoryImg = document.createElement('img');
-      $aImg.setAttribute('class', 'col-third pd');
-      $aImg.setAttribute('href', '#');
+      $div.setAttribute('class', 'col-third pd');
+      $a.setAttribute('href', '#');
       $categoryImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + xhr.response.results[i].poster_path);
-      $categoryImg.setAttribute('class', 'border-r');
+      $categoryImg.setAttribute('class', 'border-r cursor-p');
       $categoryImg.setAttribute('id', xhr.response.results[i].id);
-      $aImg.appendChild($categoryImg);
-      $trending.appendChild($aImg);
+      $div.appendChild($a);
+      $a.appendChild($categoryImg);
+      $trending.appendChild($div);
     }
   });
   xhr.send();
@@ -106,7 +110,7 @@ getCategoryImg('upcoming', $upcoming);
 
 var $tabContainer = document.querySelector('.tab-container');
 var $tabList = document.querySelectorAll('.tab');
-var $viewList = document.querySelectorAll('.view');
+var $viewList = document.querySelectorAll('.c-view');
 $tabContainer.addEventListener('click', handleTabClick);
 
 function handleTabClick(event) {
@@ -120,10 +124,8 @@ function handleTabClick(event) {
       $tabList[i].classList.remove('active');
     }
   }
-  var $eventView = event.target.getAttribute('data-view');
-
   for (var k = 0; k < $viewList.length; k++) {
-    if ($eventView === $tabList[k].getAttribute('data-view')) {
+    if (event.target.getAttribute('data-view') === $tabList[k].getAttribute('data-view')) {
       $viewList[k].classList.remove('hidden');
     } else {
       $viewList[k].classList.add('hidden');
@@ -132,23 +134,30 @@ function handleTabClick(event) {
 }
 
 // navigation bar
-var $navView = document.querySelectorAll('.navView');
-var $nav = document.querySelector('.nav');
+// var $home = document.querySelector('.home');
+// var $list = document.querySelector('.list');
+// var $detail = document.querySelector('.detail');
+// var $views = document.querySelectorAll('.view');
 
-$nav.addEventListener('click', handleNavClick);
+// function viewSwap(string) {
+//   for (var i = 0; i < $views.length; i++) {
+//     if (event.target.getAttribute('data-view') === $views[i].getAttribute('data-view')) {
+//       $views[i].classList.remove('hidden');
+//     } else {
+//       $views[i].classList.add('hidden');
+//     }
+//   }
+// }
 
-function handleNavClick(event) {
-  if (!event.target.matches('.nav')) {
-    return;
-  } var $eventView = event.target.getAttribute('data-view');
-  for (var i = 0; i < $navView.length; i++) {
-    if ($eventView === $navView[i].getAttribute('data-view')) {
-      $navView[i].classList.remove('hidden');
-    } else {
-      $navView[i].classList.add('hidden');
-    }
-  }
-}
+// if the user clicks on logo, the user is taken back to the home
+// and delete the DOM details created
+// hide list and details
+// if the user clicks on the list, the user is taken to the list
+// and create all the items stored inside the list object
+// hide home and details
+// if the user clicks on images, the user is taken to the details
+// and create the details page with the movie ID
+// hide home and list
 
 // movie detail
 var $home = document.querySelector('.home');
@@ -161,9 +170,9 @@ function handleImgClick(event) {
   if (event.target.tagName === ('IMG')) {
     var $detail = document.querySelector('.detail');
     var $home = document.querySelector('.home');
+    var targetId = event.target.id;
     $detail.classList.remove('hidden');
     $home.classList.add('hidden');
-    var targetId = event.target.id;
     getDetails(targetId);
   }
 }
