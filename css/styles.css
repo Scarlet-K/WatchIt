@@ -117,13 +117,13 @@ button {
 .pos-abs-left {
   position: absolute;
   top: 50%;
-  left: 0.5rem;
+  left: 0.1rem;
 }
 
 .pos-abs-right {
   position: absolute;
   top: 50%;
-  right: 0.5rem;
+  right: 0.1rem;
 }
 
 .pos-abs-left:hover,

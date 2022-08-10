@@ -106,15 +106,27 @@ function handleTabClick(event) {
     }
   }
   if (event.target.getAttribute('data-view') === 'top-rated') {
+    while ($topRated.firstChild) {
+      $topRated.removeChild($topRated.firstChild);
+    }
     getCategory('', 'top_rated', $topRated);
     categorySwap('top-rated');
   } else if ((event.target.getAttribute('data-view') === 'trending')) {
+    while ($trending.firstChild) {
+      $trending.removeChild($trending.firstChild);
+    }
     getCategory('trending/', 'week', $trending);
     categorySwap('trending');
   } else if ((event.target.getAttribute('data-view') === 'popular')) {
+    while ($popular.firstChild) {
+      $popular.removeChild($popular.firstChild);
+    }
     getCategory('', 'popular', $popular);
     categorySwap('popular');
   } else if ((event.target.getAttribute('data-view') === 'upcoming')) {
+    while ($upcoming.firstChild) {
+      $upcoming.removeChild($upcoming.firstChild);
+    }
     getCategory('', 'upcoming', $upcoming);
     categorySwap('upcoming');
   }
@@ -131,30 +143,26 @@ function categorySwap(string) {
 }
 
 // navigation bar
-// var $home = document.querySelector('.home');
+var $home = document.querySelector('.home');
 // var $list = document.querySelector('.list');
-// var $detail = document.querySelector('.detail');
-// var $views = document.querySelectorAll('.view');
+var $nav = document.querySelector('.nav');
+var $views = document.querySelectorAll('.view');
 
-// function viewSwap(string) {
-//   for (var i = 0; i < $views.length; i++) {
-//     if (event.target.getAttribute('data-view') === $views[i].getAttribute('data-view')) {
-//       $views[i].classList.remove('hidden');
-//     } else {
-//       $views[i].classList.add('hidden');
-//     }
-//   }
-// }
+$nav.addEventListener('click', handleNav);
+function handleNav(event) {
+  viewSwap(event.target.getAttribute('data-view'));
+}
 
-// if the user clicks on logo, the user is taken back to the home
-// and delete the DOM details created
-// hide list and details
-// if the user clicks on the list, the user is taken to the list
-// and create all the items stored inside the list object
-// hide home and details
-// if the user clicks on images, the user is taken to the details
-// and create the details page with the movie ID
-// hide home and list
+function viewSwap(string) {
+  for (var i = 0; i < $views.length; i++) {
+    if (event.target.getAttribute('data-view') === $views[i].getAttribute('data-view')) {
+      $views[i].classList.remove('hidden');
+    } else {
+      $views[i].classList.add('hidden');
+    }
+  }
+  data.view = string;
+}
 
 var $carousel = document.querySelector('.carousel');
 var $cViewContainer = document.querySelector('.c-view-container');
@@ -167,11 +175,13 @@ function showDetails(event) {
   }
   if (event.target.tagName === ('IMG')) {
     var $detail = document.querySelector('.detail');
-    var $home = document.querySelector('.home');
     var targetId = event.target.id;
+    // while ($upcoming.firstChild) {
+    //   $upcoming.removeChild($upcoming.firstChild);
+    // }
+    getDetails(targetId);
     $detail.classList.remove('hidden');
     $home.classList.add('hidden');
-    getDetails(targetId);
   }
 }
 
