@@ -7,13 +7,13 @@
   padding: 0 1.5rem;
 }
 
+.tab-container {
+  display: flex;
+}
+
 .c-view {
   display: flex;
   flex-wrap: wrap;
-}
-
-.tab-container {
-  display: flex;
 }
 
 .row {
@@ -60,5 +60,9 @@
     position: fixed;
     top: 3rem;
     left: 0.01rem;
+  }
+
+  .detail-info > h2 {
+    margin-top: 0;
   }
 }

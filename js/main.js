@@ -1,7 +1,7 @@
 // carousel
 var images = [];
 var $carouselImg = document.querySelector('.carousel-image');
-var intervalID = setInterval(getNextIndex, 3000);
+var intervalID = setInterval(getNextFilm, 3000);
 var index = 0;
 var $leftArrow = document.querySelector('.fa-chevron-left');
 var $rightArrow = document.querySelector('.fa-chevron-right');
@@ -9,14 +9,14 @@ $leftArrow.addEventListener('click', showPreviousImage);
 $rightArrow.addEventListener('click', showNextImage);
 
 function showPreviousImage(event) {
-  getPreviousIndex();
-  setIndex();
+  getPreviousFilm();
+  setInt();
 }
 function showNextImage(event) {
-  getNextIndex();
-  setIndex();
+  getNextFilm();
+  setInt();
 }
-function getPreviousIndex() {
+function getPreviousFilm() {
   if (index !== 0) {
     index--;
     $carouselImg.setAttribute('src', images[index].url);
@@ -27,7 +27,7 @@ function getPreviousIndex() {
     $carouselImg.setAttribute('id', images[index].id);
   }
 }
-function getNextIndex() {
+function getNextFilm() {
   if (index < images.length - 1) {
     index++;
     $carouselImg.setAttribute('src', images[index].url);
@@ -35,12 +35,12 @@ function getNextIndex() {
   } else {
     index = 0;
     $carouselImg.setAttribute('src', images[0].url);
-    $carouselImg.setAttribute('src', images[0].id);
+    $carouselImg.setAttribute('id', images[0].id);
   }
 }
-function setIndex() {
+function setInt() {
   clearInterval(intervalID);
-  intervalID = setInterval(getNextIndex, 3000);
+  intervalID = setInterval(getNextFilm, 3000);
 }
 
 function getCarouselImg() {
@@ -79,8 +79,9 @@ function getCategoryImg(string, DOMparent) {
       var $categoryImg = document.createElement('img');
       $div.setAttribute('class', 'col-third pd');
       $a.setAttribute('href', '#');
+      $a.setAttribute('class', 'pd-0');
       $categoryImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + xhr.response.results[i].poster_path);
-      $categoryImg.setAttribute('class', 'border-r cursor-p');
+      $categoryImg.setAttribute('class', 'border-r');
       $categoryImg.setAttribute('id', xhr.response.results[i].id);
       $div.appendChild($a);
       $a.appendChild($categoryImg);
@@ -101,8 +102,9 @@ function getTrendingImg() {
       var $categoryImg = document.createElement('img');
       $div.setAttribute('class', 'col-third pd');
       $a.setAttribute('href', '#');
+      $a.setAttribute('class', 'pd-0');
       $categoryImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + xhr.response.results[i].poster_path);
-      $categoryImg.setAttribute('class', 'border-r cursor-p');
+      $categoryImg.setAttribute('class', 'border-r');
       $categoryImg.setAttribute('id', xhr.response.results[i].id);
       $div.appendChild($a);
       $a.appendChild($categoryImg);
@@ -113,13 +115,14 @@ function getTrendingImg() {
 }
 
 getCategoryImg('top_rated', $topRated);
-getTrendingImg();
+// getTrendingImg();
 getCategoryImg('popular', $popular);
 getCategoryImg('upcoming', $upcoming);
 
 var $tabContainer = document.querySelector('.tab-container');
 var $tabList = document.querySelectorAll('.tab');
-var $viewList = document.querySelectorAll('.c-view');
+var $cViews = document.querySelectorAll('.c-view');
+// var $viewList = document.querySelectorAll('.c-view');
 $tabContainer.addEventListener('click', handleTabClick);
 
 function handleTabClick(event) {
@@ -133,12 +136,12 @@ function handleTabClick(event) {
       $tabList[i].classList.remove('active');
     }
   }
-  for (var k = 0; k < $viewList.length; k++) {
-    if (event.target.getAttribute('data-view') === $tabList[k].getAttribute('data-view')) {
-      $viewList[k].classList.remove('hidden');
-    } else {
-      $viewList[k].classList.add('hidden');
-    }
+  if (event.target.getAttribute('data-view') === 'top-rated') {
+    categorySwap('top-rated', $topRated);
+    getCategoryImg('top_rated', $topRated);
+  } else if ((event.target.getAttribute('data-view') === 'trending')) {
+    categorySwap('trending');
+    getTrendingImg();
   }
 }
 
@@ -158,6 +161,16 @@ function handleTabClick(event) {
 //   }
 // }
 
+function categorySwap(string) {
+  for (var c = 0; c < $cViews.length; c++) {
+    if (event.target.getAttribute('data-view') === $cViews[c]) {
+      $cViews[c].classList.remove('hidden');
+    } else {
+      $cViews[c].classList.add('hidden');
+    }
+  }
+}
+
 // if the user clicks on logo, the user is taken back to the home
 // and delete the DOM details created
 // hide list and details
@@ -169,9 +182,12 @@ function handleTabClick(event) {
 // hide home and list
 
 // movie detail
-window.addEventListener('click', handleImgClick);
+var $carousel = document.querySelector('.carousel');
+var $cViewContainer = document.querySelector('.c-view-container');
+$carousel.addEventListener('click', showDetails);
+$cViewContainer.addEventListener('click', showDetails);
 
-function handleImgClick(event) {
+function showDetails(event) {
   if (!event.target.tagName === ('IMG')) {
     return;
   }
@@ -198,10 +214,9 @@ function getDetails(id) {
     $detailPoster.appendChild($img);
     var $h2 = document.createElement('h2');
     $h2.textContent = xhr.response.title;
-    $h2.setAttribute('class', 'margin-t0');
     var $p = document.createElement('p');
     $p.textContent = xhr.response.overview;
-    $p.setAttribute('class', 'font-work');
+    $p.setAttribute('class', 'font-work grey-font');
     $detailInfo.append($h2, $p);
     var $div = document.createElement('div');
     $div.setAttribute('class', 'pd-tb');
@@ -213,18 +228,18 @@ function getDetails(id) {
     $genre.textContent = 'Genres';
     var $dateP = document.createElement('p');
     $dateP.textContent = xhr.response.release_date;
-    $dateP.setAttribute('class', 'font-work');
+    $dateP.setAttribute('class', 'font-work font-s grey-font');
     for (var i = 0; i < xhr.response.production_companies.length; i++) {
       var $prodP = document.createElement('p');
       $prodP.textContent = xhr.response.production_companies[i].name;
-      $prodP.setAttribute('class', 'font-work');
+      $prodP.setAttribute('class', 'font-work font-s grey-font');
       $prod.appendChild($prodP);
     }
 
     for (var k = 0; k < xhr.response.genres.length; k++) {
       var $genreP = document.createElement('p');
       $genreP.textContent = xhr.response.genres[k].name;
-      $genreP.setAttribute('class', 'font-work');
+      $genreP.setAttribute('class', 'font-work font-s grey-font');
       $genre.appendChild($genreP);
     }
     $date.appendChild($dateP);

@@ -54,6 +54,18 @@ img {
   font-size: 1rem;
 }
 
+.font-s {
+  font-size: 0.8rem;
+}
+
+.grey-font {
+  color: rgb(211, 209, 209);
+}
+
+.white-font {
+  color: white;
+}
+
 .detail {
   max-width: 900px;
   margin: auto;
