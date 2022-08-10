@@ -7,17 +7,28 @@
   padding: 0 1.5rem;
 }
 
+.tab-container {
+  display: flex;
+}
+
+.c-view {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .row {
   display: flex;
   flex-wrap: wrap;
 }
 
 .col-full,
-.col-half {
+.col-half,
+.col-third,
+.col-two-third {
   width: 100%;
 }
 
-.col-third {
+.col-fourth {
   width: 50%;
 }
 
@@ -29,6 +40,8 @@
   .col-full,
   .col-half,
   .col-third,
+  .col-fourth,
+  .col-two-third,
   .col-auto {
     padding: 0 0.75rem;
   }
@@ -41,10 +54,21 @@
     width: calc(100% / 3);
   }
 
-  .now-playing {
+  .col-fourth {
+    width: calc(100% / 4);
+  }
+
+  .col-two-third {
+    width: calc(200% / 3);
+  }
+
+  .carousel {
     position: fixed;
-    top: 1.5rem;
-    left: 0.5rem;
-    font-size: 1.5rem;
+    top: 3rem;
+    left: 0.01rem;
+  }
+
+  .detail-info > h2 {
+    margin-top: 0;
   }
 }

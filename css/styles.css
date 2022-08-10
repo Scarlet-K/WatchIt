@@ -26,43 +26,54 @@ div.tab-container > a:hover {
 
 img {
   width: 100%;
-}
-
-p {
-  padding: 1rem;
-  margin: 0;
+  height: 100%;
 }
 
 .fixed {
   position: fixed;
   width: 100%;
+  z-index: 1;
 }
 
-.home-button {
+.rel {
+  position: relative;
+}
+
+.font-work {
+  font-family: "Work Sans", sans-serif;
+}
+
+.font-ver {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.font-1h {
   font-size: 1.5rem;
 }
 
-.list-button {
+.font-1 {
   font-size: 1rem;
 }
 
-.view {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+.font-s {
+  font-size: 0.8rem;
 }
 
-.tab {
-  font-size: 1rem;
+.grey-font {
+  color: rgb(211, 209, 209);
+}
+
+.white-font {
+  color: white;
+}
+
+.detail {
+  max-width: 900px;
+  margin: auto;
 }
 
 div.tab-container > a.active {
   color: white;
-}
-
-.poster-wrapper {
-  position: relative;
-  width: 500px;
 }
 
 .align-center {
@@ -89,36 +100,35 @@ div.tab-container > a.active {
   text-align: center;
 }
 
+button {
+  background-color: #e3e6e94f;
+  border: none;
+  border-radius: 0.2rem;
+  cursor: pointer;
+}
+
 .fa-chevron-left,
 .fa-chevron-right {
   font-size: 2.5rem;
-  padding: 0.5rem;
-  cursor: pointer;
+  color: #242429;
+  padding: 0.5rem 0;
 }
 
 .pos-abs-left {
   position: absolute;
   top: 50%;
-  left: 0.2rem;
-  background-color: #e3e6e94f;
+  left: 0.1rem;
 }
 
 .pos-abs-right {
   position: absolute;
   top: 50%;
-  right: 0.2rem;
-  background-color: #e3e6e94f;
+  right: 0.1rem;
 }
 
 .pos-abs-left:hover,
 .pos-abs-right:hover {
   background-color: #4d4f514f;
-}
-
-i.fa-circle {
-  padding: 0.3rem;
-  cursor: pointer;
-  font-size: 0.75rem;
 }
 
 .bold {
@@ -137,18 +147,40 @@ i.fa-circle {
   padding: 3rem 0;
 }
 
+.pd-t {
+  padding-top: 0.5rem;
+}
+
 .pd-t2 {
   padding-top: 2rem;
 }
 
 .pd-lr {
-  padding: 0 2rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 .pd {
   padding: 2rem;
 }
 
+.pd-0 {
+  padding: 0;
+}
+
+.margin-0 {
+  margin: 0;
+}
+
+.margin-t0 {
+  margin-top: 0;
+}
+
 .border-r {
   border-radius: 0.3rem;
+}
+
+h4,
+h4 ~ p {
+  margin: 0.5rem 0;
 }
