@@ -23,11 +23,12 @@
 
 .col-full,
 .col-half,
+.col-third,
 .col-two-third {
   width: 100%;
 }
 
-.col-third {
+.col-fourth {
   width: 50%;
 }
 
@@ -39,6 +40,7 @@
   .col-full,
   .col-half,
   .col-third,
+  .col-fourth,
   .col-two-third,
   .col-auto {
     padding: 0 0.75rem;
@@ -50,6 +52,10 @@
 
   .col-third {
     width: calc(100% / 3);
+  }
+
+  .col-fourth {
+    width: calc(100% / 4);
   }
 
   .col-two-third {

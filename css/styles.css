@@ -32,6 +32,7 @@ img {
 .fixed {
   position: fixed;
   width: 100%;
+  z-index: 1;
 }
 
 .rel {

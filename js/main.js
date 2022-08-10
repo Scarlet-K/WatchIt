@@ -1,4 +1,3 @@
-// carousel
 var images = [];
 var $carouselImg = document.querySelector('.carousel-image');
 var intervalID = setInterval(getNextFilm, 3000);
@@ -62,68 +61,38 @@ function getCarouselImg() {
 }
 getCarouselImg();
 
-// change category
 var $topRated = document.querySelector('.top-rated');
 var $trending = document.querySelector('.trending');
 var $popular = document.querySelector('.popular');
 var $upcoming = document.querySelector('.upcoming');
+var $tabContainer = document.querySelector('.tab-container');
+var $tabList = document.querySelectorAll('.tab');
+var $cViews = document.querySelectorAll('.c-view');
+$tabContainer.addEventListener('click', handleTabClick);
 
-function getCategoryImg(string, DOMparent) {
+function getCategory(string1, string2, DOMparent) {
   var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://api.themoviedb.org/3/movie/' + string + '?api_key=d7a558bf3c164e7e0d8761462a9973e2&language=en-US');
+  xhr.open('GET', 'https://api.themoviedb.org/3/' + string1 + 'movie/' + string2 + '?api_key=d7a558bf3c164e7e0d8761462a9973e2&language=en-US');
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
     for (var i = 0; i < xhr.response.results.length; i++) {
       var $div = document.createElement('div');
       var $a = document.createElement('a');
       var $categoryImg = document.createElement('img');
-      $div.setAttribute('class', 'col-third pd');
+      $div.setAttribute('class', 'col-fourth pd');
       $a.setAttribute('href', '#');
       $a.setAttribute('class', 'pd-0');
       $categoryImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + xhr.response.results[i].poster_path);
       $categoryImg.setAttribute('class', 'border-r');
       $categoryImg.setAttribute('id', xhr.response.results[i].id);
-      $div.appendChild($a);
       $a.appendChild($categoryImg);
+      $div.appendChild($a);
       DOMparent.appendChild($div);
     }
   });
   xhr.send();
 }
-
-function getTrendingImg() {
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://api.themoviedb.org/3/trending/movie/week?api_key=d7a558bf3c164e7e0d8761462a9973e2&language=en-US');
-  xhr.responseType = 'json';
-  xhr.addEventListener('load', function () {
-    for (var i = 0; i < xhr.response.results.length; i++) {
-      var $div = document.createElement('div');
-      var $a = document.createElement('a');
-      var $categoryImg = document.createElement('img');
-      $div.setAttribute('class', 'col-third pd');
-      $a.setAttribute('href', '#');
-      $a.setAttribute('class', 'pd-0');
-      $categoryImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + xhr.response.results[i].poster_path);
-      $categoryImg.setAttribute('class', 'border-r');
-      $categoryImg.setAttribute('id', xhr.response.results[i].id);
-      $div.appendChild($a);
-      $a.appendChild($categoryImg);
-      $trending.appendChild($div);
-    }
-  });
-  xhr.send();
-}
-
-getCategoryImg('top_rated', $topRated);
-// getTrendingImg();
-getCategoryImg('popular', $popular);
-getCategoryImg('upcoming', $upcoming);
-
-var $tabContainer = document.querySelector('.tab-container');
-var $tabList = document.querySelectorAll('.tab');
-var $cViews = document.querySelectorAll('.c-view');
-// var $viewList = document.querySelectorAll('.c-view');
-$tabContainer.addEventListener('click', handleTabClick);
+getCategory('', 'top_rated', $topRated);
 
 function handleTabClick(event) {
   if (!event.target.matches('.tab')) {
@@ -137,11 +106,27 @@ function handleTabClick(event) {
     }
   }
   if (event.target.getAttribute('data-view') === 'top-rated') {
-    categorySwap('top-rated', $topRated);
-    getCategoryImg('top_rated', $topRated);
+    getCategory('', 'top_rated', $topRated);
+    categorySwap('top-rated');
   } else if ((event.target.getAttribute('data-view') === 'trending')) {
+    getCategory('trending/', 'week', $trending);
     categorySwap('trending');
-    getTrendingImg();
+  } else if ((event.target.getAttribute('data-view') === 'popular')) {
+    getCategory('', 'popular', $popular);
+    categorySwap('popular');
+  } else if ((event.target.getAttribute('data-view') === 'upcoming')) {
+    getCategory('', 'upcoming', $upcoming);
+    categorySwap('upcoming');
+  }
+}
+
+function categorySwap(string) {
+  for (var c = 0; c < $cViews.length; c++) {
+    if (event.target.getAttribute('data-view') === $cViews[c].getAttribute('data-view')) {
+      $cViews[c].classList.remove('hidden');
+    } else {
+      $cViews[c].classList.add('hidden');
+    }
   }
 }
 
@@ -161,16 +146,6 @@ function handleTabClick(event) {
 //   }
 // }
 
-function categorySwap(string) {
-  for (var c = 0; c < $cViews.length; c++) {
-    if (event.target.getAttribute('data-view') === $cViews[c]) {
-      $cViews[c].classList.remove('hidden');
-    } else {
-      $cViews[c].classList.add('hidden');
-    }
-  }
-}
-
 // if the user clicks on logo, the user is taken back to the home
 // and delete the DOM details created
 // hide list and details
@@ -181,7 +156,6 @@ function categorySwap(string) {
 // and create the details page with the movie ID
 // hide home and list
 
-// movie detail
 var $carousel = document.querySelector('.carousel');
 var $cViewContainer = document.querySelector('.c-view-container');
 $carousel.addEventListener('click', showDetails);
