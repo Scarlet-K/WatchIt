@@ -66,6 +66,7 @@ var $trending = document.querySelector('.trending');
 var $popular = document.querySelector('.popular');
 var $upcoming = document.querySelector('.upcoming');
 var $tabContainer = document.querySelector('.tab-container');
+var $cViewContainer = document.querySelector('.c-view-container');
 var $tabList = document.querySelectorAll('.tab');
 var $cViews = document.querySelectorAll('.c-view');
 $tabContainer.addEventListener('click', handleTabClick);
@@ -75,29 +76,36 @@ function getCategory(string1, string2, DOMparent) {
   xhr.open('GET', 'https://api.themoviedb.org/3/' + string1 + 'movie/' + string2 + '?api_key=d7a558bf3c164e7e0d8761462a9973e2&language=en-US');
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
+    $cViewContainer.appendChild(renderCategory(xhr.response, DOMparent));
+  });
+  xhr.send();
+}
+
+function renderCategory(response, DOMparent) {
   /*
+  <div class= "c-view">
     <div class= "col-fourth pd">
       <a href= "#" class= "pd-0">
         <img src= "" class= "border-r" id= "">
       </a>
     </div>
-  */
-    for (var i = 0; i < xhr.response.results.length; i++) {
-      var $div = document.createElement('div');
-      var $a = document.createElement('a');
-      var $categoryImg = document.createElement('img');
-      $div.setAttribute('class', 'col-fourth pd');
-      $a.setAttribute('href', '#');
-      $a.setAttribute('class', 'pd-0');
-      $categoryImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + xhr.response.results[i].poster_path);
-      $categoryImg.setAttribute('class', 'border-r');
-      $categoryImg.setAttribute('id', xhr.response.results[i].id);
-      $a.appendChild($categoryImg);
-      $div.appendChild($a);
-      DOMparent.appendChild($div);
-    }
-  });
-  xhr.send();
+  </div>
+*/
+  for (var i = 0; i < response.results.length; i++) {
+    var $div = document.createElement('div');
+    var $a = document.createElement('a');
+    var $categoryImg = document.createElement('img');
+    $div.setAttribute('class', 'col-fourth pd');
+    $a.setAttribute('href', '#');
+    $a.setAttribute('class', 'pd-0');
+    $categoryImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + response.results[i].poster_path);
+    $categoryImg.setAttribute('class', 'border-r');
+    $categoryImg.setAttribute('id', response.results[i].id);
+    $a.appendChild($categoryImg);
+    $div.appendChild($a);
+    DOMparent.appendChild($div);
+  }
+  return DOMparent;
 }
 getCategory('', 'top_rated', $topRated);
 
@@ -154,7 +162,6 @@ var $nav = document.querySelector('.nav');
 var $views = document.querySelectorAll('.view');
 var $detail = document.querySelector('.detail');
 var $carousel = document.querySelector('.carousel');
-var $cViewContainer = document.querySelector('.c-view-container');
 $carousel.addEventListener('click', showDetails);
 $cViewContainer.addEventListener('click', showDetails);
 $nav.addEventListener('click', handleNav);
@@ -171,6 +178,7 @@ function viewSwap(string) {
       $views[i].classList.add('hidden');
     }
   }
+  data.view = string;
 }
 
 function showDetails(event) {
@@ -183,7 +191,6 @@ function showDetails(event) {
     while ($detail.firstChild) {
       $detail.removeChild($detail.firstChild);
     }
-    getRating(targetId);
     getDetails(targetId);
     $detail.classList.remove('hidden');
     $home.classList.add('hidden');
@@ -195,113 +202,88 @@ function getDetails(id) {
   xhr.open('GET', 'https://api.themoviedb.org/3/movie/' + id + '?api_key=d7a558bf3c164e7e0d8761462a9973e2&language=en-US');
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
-    /*
-      <div class="row pd-tb3">
-        <div class="col-half">
-          <div class="row">
-            <div class="col-full pd-lr detail-poster">
-              <img>
-            </div>
-          </div>
-        </div>
-        <div class="col-half pd-lr font-ver detail-info">
-          <h2></h2>
-          <i class="fa-solid fa-circle-star"></i>
-          <span></span>
-          <p class= "font-work grey-font"></p>
-          <div class= "pd-tb">
-            <h4></h4>
-            <p class= "font-work font-s grey-font"></p>
-            <h4></h4>
-            <span class= "font-work font-s grey-font"></span>
-            <h4></h4>
-            <span class= "font-work font-s grey-font"></span>
-          </div>
-        </div>
-      </div>
-    */
-    var $row = document.createElement('div');
-    $row.setAttribute('class', 'row pd-tb3');
-    var $colHalf = document.createElement('div');
-    $colHalf.setAttribute('class', 'col-half');
-    var $posterRow = document.createElement('div');
-    $posterRow.setAttribute('class', 'row');
-    var $detailPoster = document.createElement('div');
-    $detailPoster.setAttribute('class', 'col-full pd-lr detail-poster');
-    var $img = document.createElement('img');
-    $img.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + xhr.response.poster_path);
-    var $detailInfo = document.createElement('div');
-    $detailInfo.setAttribute('class', 'col-half pd-lr font-ver detail-info');
-    var $h2 = document.createElement('h2');
-    $h2.textContent = xhr.response.title;
-    var $star = document.createElement('i');
-    $star.setAttribute('class', 'fa-solid fa-star yellow');
-    var $rating = document.createElement('span');
-    $rating.setAttribute('class', 'pd-lr-h');
-    $rating.textContent = data.rating;
-    var $p = document.createElement('p');
-    $p.textContent = xhr.response.overview;
-    $p.setAttribute('class', 'font-work grey-font');
-    var $div = document.createElement('div');
-    $div.setAttribute('class', 'pd-tb');
-    var $date = document.createElement('h4');
-    $date.textContent = 'Release Date';
-    var $prod = document.createElement('h4');
-    $prod.textContent = 'Production Companies';
-    var $genre = document.createElement('h4');
-    $genre.textContent = 'Genres';
-    var $dateP = document.createElement('p');
-    $dateP.textContent = xhr.response.release_date;
-    $dateP.setAttribute('class', 'font-work font-s grey-font');
-    $div.append($date, $prod, $genre);
-    for (var i = 0; i < xhr.response.production_companies.length; i++) {
-      var $prodP = document.createElement('p');
-      $prodP.textContent = xhr.response.production_companies[i].name;
-      $prodP.setAttribute('class', 'font-work font-s grey-font');
-      $prod.after($prodP);
-    }
-    for (var k = 0; k < xhr.response.genres.length; k++) {
-      var $genreP = document.createElement('p');
-      $genreP.textContent = xhr.response.genres[k].name;
-      $genreP.setAttribute('class', 'font-work font-s grey-font');
-      $genre.after($genreP);
-    }
-    $row.appendChild($colHalf);
-    $colHalf.appendChild($posterRow);
-    $posterRow.appendChild($detailPoster);
-    $detailPoster.appendChild($img);
-    $row.appendChild($detailInfo);
-    $detailInfo.append($h2, $star, $rating, $p);
-    $detailInfo.appendChild($div);
-    $date.after($dateP);
-    $detail.appendChild($row);
+    renderDetails(xhr.response);
   });
   xhr.send();
 }
 
-function getRating(id) {
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://api.themoviedb.org/3/movie/' + id + '/reviews?api_key=d7a558bf3c164e7e0d8761462a9973e2');
-  xhr.responseType = 'json';
-  xhr.addEventListener('load', function () {
-    var sum = 0;
-    var count = xhr.response.results.length;
-    var average = 0;
-    for (var i = 0; i < xhr.response.results.length; i++) {
-      var rating = xhr.response.results[i].author_details.rating;
-      if (rating === null) {
-        count--;
-        continue;
-      } else {
-        sum += rating;
-      }
-    }
-    average += Math.ceil(sum / count);
-    if (Number.isNaN(average)) {
-      data.rating = 'Not Available';
-    } else {
-      data.rating = average;
-    }
-  });
-  xhr.send();
+function renderDetails(response) {
+  /*
+  <div class="row pd-tb3">
+    <div class="col-half">
+      <div class="row">
+        <div class="col-full pd-lr detail-poster">
+          <img>
+        </div>
+      </div>
+    </div>
+    <div class="col-half pd-lr font-ver detail-info">
+      <h2></h2>
+      <p class= "font-work grey-font"></p>
+      <div class= "pd-tb">
+        <h4></h4>
+        <p class= "font-work font-s grey-font"></p>
+        <h4></h4>
+        <span class= "font-work font-s grey-font"></span>
+        <h4></h4>
+        <span class= "font-work font-s grey-font"></span>
+      </div>
+    </div>
+  </div>
+*/
+  var $row = document.createElement('div');
+  $row.setAttribute('class', 'row pd-tb3');
+  var $colHalf = document.createElement('div');
+  $colHalf.setAttribute('class', 'col-half');
+  var $posterRow = document.createElement('div');
+  $posterRow.setAttribute('class', 'row');
+  var $detailPoster = document.createElement('div');
+  $detailPoster.setAttribute('class', 'col-full pd-lr detail-poster');
+  var $img = document.createElement('img');
+  $img.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + response.poster_path);
+  var $detailInfo = document.createElement('div');
+  $detailInfo.setAttribute('class', 'col-half pd-lr font-ver detail-info');
+  var $h2 = document.createElement('h2');
+  $h2.textContent = response.title;
+  var $star = document.createElement('i');
+  $star.setAttribute('class', 'fa-solid fa-star yellow');
+  var $rating = document.createElement('span');
+  $rating.setAttribute('class', 'pd-lr-h');
+  $rating.textContent = response.vote_average.toFixed(1);
+  var $p = document.createElement('p');
+  $p.textContent = response.overview;
+  $p.setAttribute('class', 'font-work grey-font');
+  var $div = document.createElement('div');
+  $div.setAttribute('class', 'pd-tb');
+  var $date = document.createElement('h4');
+  $date.textContent = 'Release Date';
+  var $prod = document.createElement('h4');
+  $prod.textContent = 'Production Companies';
+  var $genre = document.createElement('h4');
+  $genre.textContent = 'Genres';
+  var $dateP = document.createElement('p');
+  $dateP.textContent = response.release_date;
+  $dateP.setAttribute('class', 'font-work font-s grey-font');
+  $div.append($date, $prod, $genre);
+  for (var i = 0; i < response.production_companies.length; i++) {
+    var $prodP = document.createElement('p');
+    $prodP.textContent = response.production_companies[i].name;
+    $prodP.setAttribute('class', 'font-work font-s grey-font');
+    $prod.after($prodP);
+  }
+  for (var k = 0; k < response.genres.length; k++) {
+    var $genreP = document.createElement('p');
+    $genreP.textContent = response.genres[k].name;
+    $genreP.setAttribute('class', 'font-work font-s grey-font');
+    $genre.after($genreP);
+  }
+  $row.appendChild($colHalf);
+  $colHalf.appendChild($posterRow);
+  $posterRow.appendChild($detailPoster);
+  $detailPoster.appendChild($img);
+  $row.appendChild($detailInfo);
+  $detailInfo.append($h2, $star, $rating, $p);
+  $detailInfo.appendChild($div);
+  $date.after($dateP);
+  $detail.appendChild($row);
 }
