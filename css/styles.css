@@ -160,6 +160,10 @@ button {
   padding-right: 1rem;
 }
 
+.pd-lr-h {
+  padding: 0 0.5rem;
+}
+
 .pd {
   padding: 2rem;
 }
@@ -183,4 +187,8 @@ button {
 h4,
 h4 ~ p {
   margin: 0.5rem 0;
+}
+
+.yellow {
+  color: yellow;
 }

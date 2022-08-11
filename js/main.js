@@ -150,7 +150,6 @@ function categorySwap(string) {
 }
 
 var $home = document.querySelector('.home');
-// var $list = document.querySelector('.list');
 var $nav = document.querySelector('.nav');
 var $views = document.querySelectorAll('.view');
 var $detail = document.querySelector('.detail');
@@ -185,6 +184,7 @@ function showDetails(event) {
       $detail.removeChild($detail.firstChild);
     }
     getDetails(targetId);
+    getRating(targetId);
     $detail.classList.remove('hidden');
     $home.classList.add('hidden');
   }
@@ -195,29 +195,33 @@ function getDetails(id) {
   xhr.open('GET', 'https://api.themoviedb.org/3/movie/' + id + '?api_key=d7a558bf3c164e7e0d8761462a9973e2&language=en-US');
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
-  /*
-    <div class="row pd-tb3">
-      <div class="col-half">
-        <div class="row">
-          <div class="col-full pd-lr detail-poster">
-            <img>
+    /*
+      <div class="row pd-tb3">
+        <div class="col-half">
+          <div class="row">
+            <div class="col-full pd-lr detail-poster">
+              <img>
+            </div>
+          </div>
+        </div>
+        <div class="col-half pd-lr font-ver detail-info">
+          <h2></h2>
+
+          <i class="fa-solid fa-circle-star"></i>
+          <span></span>
+
+          <p class= "font-work grey-font"></p>
+          <div class= "pd-tb">
+            <h4></h4>
+            <p class= "font-work font-s grey-font"></p>
+            <h4></h4>
+            <span class= "font-work font-s grey-font"></span>
+            <h4></h4>
+            <span class= "font-work font-s grey-font"></span>
           </div>
         </div>
       </div>
-      <div class="col-half pd-lr font-ver detail-info">
-        <h2></h2>
-        <p class= "font-work grey-font"></p>
-        <div class= "pd-tb">
-          <h4></h4>
-          <p class= "font-work font-s grey-font"></p>
-          <h4></h4>
-          <span class= "font-work font-s grey-font"></span>
-          <h4></h4>
-          <span class= "font-work font-s grey-font"></span>
-        </div>
-      </div>
-    </div>
-  */
+    */
     var $row = document.createElement('div');
     $row.setAttribute('class', 'row pd-tb3');
     var $colHalf = document.createElement('div');
@@ -232,6 +236,13 @@ function getDetails(id) {
     $detailInfo.setAttribute('class', 'col-half pd-lr font-ver detail-info');
     var $h2 = document.createElement('h2');
     $h2.textContent = xhr.response.title;
+
+    // var $star = document.createElement('i');
+    // $star.setAttribute('class', 'fa-solid fa-star yellow');
+    // var $rating = document.createElement('span');
+    // $rating.setAttribute('class', 'pd-lr-h');
+    // $rating.textContent = data.rating;
+
     var $p = document.createElement('p');
     $p.textContent = xhr.response.overview;
     $p.setAttribute('class', 'font-work grey-font');
@@ -265,10 +276,43 @@ function getDetails(id) {
     $posterRow.appendChild($detailPoster);
     $detailPoster.appendChild($img);
     $row.appendChild($detailInfo);
+    // $detailInfo.append($h2, $star, $rating, $p);
     $detailInfo.append($h2, $p);
     $detailInfo.appendChild($div);
     $date.after($dateP);
     $detail.appendChild($row);
+  });
+  xhr.send();
+}
+
+function getRating(id) {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://api.themoviedb.org/3/movie/' + id + '/reviews?api_key=d7a558bf3c164e7e0d8761462a9973e2');
+  xhr.responseType = 'json';
+  xhr.addEventListener('load', function () {
+    var sum = 0;
+    var count = xhr.response.results.length;
+    var average = 0;
+    // if (xhr.response.results === []) {
+    //   console.log(typeof xhr.response.results);
+    //   console.log(typeof []);
+    //   console.log('none');
+    //   data.rating = 'Not Available';
+    // }
+    for (var i = 0; i < xhr.response.results.length; i++) {
+      if (xhr.response.results[i].author_details.rating === null) {
+        count--;
+        continue;
+      } else {
+        sum += xhr.response.results[i].author_details.rating;
+      }
+    }
+    average += Math.ceil(sum / count);
+    var $star = document.createElement('i');
+    $star.setAttribute('class', 'fa-solid fa-star yellow');
+    var $rating = document.createElement('span');
+    $rating.setAttribute('class', 'pd-lr-h');
+    $rating.textContent = average;
   });
   xhr.send();
 }
