@@ -209,15 +209,20 @@ function getDetails(id) {
 
 function renderDetails(response) {
   /*
-  <div class="row pd-tb3">
-    <div class="col-half">
-      <div class="row">
-        <div class="col-full pd-lr detail-poster">
+  <div class= "row pd-tb3">
+    <div class= "col-half">
+      <div class= "row">
+        <div class= "col-full pd-lr detail-poster">
           <img>
+        </div>
+        <div class= "row text-end pd-tb1">
+          <div class= "col-full pd-lr">
+            <button class= "add-button">Add to My List</button>
+          </div>
         </div>
       </div>
     </div>
-    <div class="col-half pd-lr font-ver detail-info">
+    <div class= "col-half pd-lr font-ver detail-info">
       <h2></h2>
       <p class= "font-work grey-font"></p>
       <div class= "pd-tb">
@@ -241,6 +246,13 @@ function renderDetails(response) {
   $detailPoster.setAttribute('class', 'col-full pd-lr detail-poster');
   var $img = document.createElement('img');
   $img.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + response.poster_path);
+  var $rowButton = document.createElement('div');
+  $rowButton.setAttribute('class', 'row text-end pd-tb1');
+  var $colFull = document.createElement('div');
+  $colFull.setAttribute('class', 'col-full pd-lr');
+  var $button = document.createElement('button');
+  $button.setAttribute('class', 'add-button');
+  $button.textContent = 'Add to My List';
   var $detailInfo = document.createElement('div');
   $detailInfo.setAttribute('class', 'col-half pd-lr font-ver detail-info');
   var $h2 = document.createElement('h2');
@@ -281,6 +293,9 @@ function renderDetails(response) {
   $colHalf.appendChild($posterRow);
   $posterRow.appendChild($detailPoster);
   $detailPoster.appendChild($img);
+  $colHalf.appendChild($rowButton);
+  $colFull.append($button);
+  $rowButton.appendChild($colFull);
   $row.appendChild($detailInfo);
   $detailInfo.append($h2, $star, $rating, $p);
   $detailInfo.appendChild($div);
