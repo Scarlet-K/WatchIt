@@ -183,8 +183,8 @@ function showDetails(event) {
     while ($detail.firstChild) {
       $detail.removeChild($detail.firstChild);
     }
-    getDetails(targetId);
     getRating(targetId);
+    getDetails(targetId);
     $detail.classList.remove('hidden');
     $home.classList.add('hidden');
   }
@@ -206,10 +206,8 @@ function getDetails(id) {
         </div>
         <div class="col-half pd-lr font-ver detail-info">
           <h2></h2>
-
           <i class="fa-solid fa-circle-star"></i>
           <span></span>
-
           <p class= "font-work grey-font"></p>
           <div class= "pd-tb">
             <h4></h4>
@@ -236,13 +234,11 @@ function getDetails(id) {
     $detailInfo.setAttribute('class', 'col-half pd-lr font-ver detail-info');
     var $h2 = document.createElement('h2');
     $h2.textContent = xhr.response.title;
-
-    // var $star = document.createElement('i');
-    // $star.setAttribute('class', 'fa-solid fa-star yellow');
-    // var $rating = document.createElement('span');
-    // $rating.setAttribute('class', 'pd-lr-h');
-    // $rating.textContent = data.rating;
-
+    var $star = document.createElement('i');
+    $star.setAttribute('class', 'fa-solid fa-star yellow');
+    var $rating = document.createElement('span');
+    $rating.setAttribute('class', 'pd-lr-h');
+    $rating.textContent = data.rating;
     var $p = document.createElement('p');
     $p.textContent = xhr.response.overview;
     $p.setAttribute('class', 'font-work grey-font');
@@ -264,7 +260,6 @@ function getDetails(id) {
       $prodP.setAttribute('class', 'font-work font-s grey-font');
       $prod.after($prodP);
     }
-
     for (var k = 0; k < xhr.response.genres.length; k++) {
       var $genreP = document.createElement('p');
       $genreP.textContent = xhr.response.genres[k].name;
@@ -276,8 +271,7 @@ function getDetails(id) {
     $posterRow.appendChild($detailPoster);
     $detailPoster.appendChild($img);
     $row.appendChild($detailInfo);
-    // $detailInfo.append($h2, $star, $rating, $p);
-    $detailInfo.append($h2, $p);
+    $detailInfo.append($h2, $star, $rating, $p);
     $detailInfo.appendChild($div);
     $date.after($dateP);
     $detail.appendChild($row);
@@ -293,26 +287,21 @@ function getRating(id) {
     var sum = 0;
     var count = xhr.response.results.length;
     var average = 0;
-    // if (xhr.response.results === []) {
-    //   console.log(typeof xhr.response.results);
-    //   console.log(typeof []);
-    //   console.log('none');
-    //   data.rating = 'Not Available';
-    // }
     for (var i = 0; i < xhr.response.results.length; i++) {
-      if (xhr.response.results[i].author_details.rating === null) {
+      var rating = xhr.response.results[i].author_details.rating;
+      if (rating === null) {
         count--;
         continue;
       } else {
-        sum += xhr.response.results[i].author_details.rating;
+        sum += rating;
       }
     }
     average += Math.ceil(sum / count);
-    var $star = document.createElement('i');
-    $star.setAttribute('class', 'fa-solid fa-star yellow');
-    var $rating = document.createElement('span');
-    $rating.setAttribute('class', 'pd-lr-h');
-    $rating.textContent = average;
+    if (Number.isNaN(average)) {
+      data.rating = 'Not Available';
+    } else {
+      data.rating = average;
+    }
   });
   xhr.send();
 }

@@ -3,7 +3,6 @@
 var data = {
   view: 'home',
   watchlist: [],
-  details: {},
   rating: 0,
   editing: null,
   nextFilmId: 1

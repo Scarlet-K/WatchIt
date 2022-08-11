@@ -116,13 +116,13 @@ button {
 
 .pos-abs-left {
   position: absolute;
-  top: 50%;
+  top: 45%;
   left: 0.1rem;
 }
 
 .pos-abs-right {
   position: absolute;
-  top: 50%;
+  top: 45%;
   right: 0.1rem;
 }
 
