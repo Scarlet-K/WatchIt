@@ -92,14 +92,6 @@ div.tab-container > a.active {
   justify-content: space-evenly;
 }
 
-.text-end {
-  text-align: end;
-}
-
-.text-center {
-  text-align: center;
-}
-
 button {
   background-color: #e3e6e94f;
   border: none;
@@ -174,10 +166,6 @@ button {
 
 .margin-0 {
   margin: 0;
-}
-
-.margin-t0 {
-  margin-top: 0;
 }
 
 .border-r {
