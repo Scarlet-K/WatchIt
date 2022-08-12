@@ -2,9 +2,8 @@
 
 var data = {
   view: 'home',
+  movies: [],
   watchlist: [],
-  rating: 0,
-  editing: null,
   nextFilmId: 1
 };
 

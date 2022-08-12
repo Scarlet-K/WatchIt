@@ -56,7 +56,7 @@ img {
 }
 
 .font-s {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
 }
 
 .grey-font {
@@ -92,8 +92,12 @@ div.tab-container > a.active {
   justify-content: space-evenly;
 }
 
-button {
-  background-color: #e3e6e94f;
+.text-end {
+  text-align: end;
+}
+
+.chevron {
+  background-color: #4d4f514f;
   border: none;
   border-radius: 0.2rem;
   cursor: pointer;
@@ -120,7 +124,7 @@ button {
 
 .pos-abs-left:hover,
 .pos-abs-right:hover {
-  background-color: #4d4f514f;
+  background-color: #e3e6e94f;
 }
 
 .bold {
@@ -179,4 +183,12 @@ h4 ~ p {
 
 .yellow {
   color: yellow;
+}
+
+.add-button {
+  border: none;
+  border-radius: 0.2rem;
+  background-color: #242429;
+  color: white;
+  cursor: pointer;
 }
