@@ -3,6 +3,7 @@
 var data = {
   view: 'home',
   watchlist: [],
+  rating: 0,
   editing: null,
   nextFilmId: 1
 };

@@ -92,14 +92,6 @@ div.tab-container > a.active {
   justify-content: space-evenly;
 }
 
-.text-end {
-  text-align: end;
-}
-
-.text-center {
-  text-align: center;
-}
-
 button {
   background-color: #e3e6e94f;
   border: none;
@@ -116,13 +108,13 @@ button {
 
 .pos-abs-left {
   position: absolute;
-  top: 50%;
+  top: 45%;
   left: 0.1rem;
 }
 
 .pos-abs-right {
   position: absolute;
-  top: 50%;
+  top: 45%;
   right: 0.1rem;
 }
 
@@ -160,6 +152,10 @@ button {
   padding-right: 1rem;
 }
 
+.pd-lr-h {
+  padding: 0 0.5rem;
+}
+
 .pd {
   padding: 2rem;
 }
@@ -172,10 +168,6 @@ button {
   margin: 0;
 }
 
-.margin-t0 {
-  margin-top: 0;
-}
-
 .border-r {
   border-radius: 0.3rem;
 }
@@ -183,4 +175,8 @@ button {
 h4,
 h4 ~ p {
   margin: 0.5rem 0;
+}
+
+.yellow {
+  color: yellow;
 }
