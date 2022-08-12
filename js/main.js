@@ -76,7 +76,7 @@ function getCategory(string1, string2, DOMparent) {
   xhr.open('GET', 'https://api.themoviedb.org/3/' + string1 + 'movie/' + string2 + '?api_key=d7a558bf3c164e7e0d8761462a9973e2&language=en-US');
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
-    $cViewContainer.appendChild(renderCategory(xhr.response, DOMparent));
+    $cViewContainer.appendChild(renderCategory(xhr.response.results, DOMparent));
   });
   xhr.send();
 }
@@ -91,16 +91,16 @@ function renderCategory(response, DOMparent) {
     </div>
   </div>
 */
-  for (var i = 0; i < response.results.length; i++) {
+  for (var i = 0; i < response.length; i++) {
     var $div = document.createElement('div');
     var $a = document.createElement('a');
     var $categoryImg = document.createElement('img');
     $div.setAttribute('class', 'col-fourth pd');
     $a.setAttribute('href', '#');
     $a.setAttribute('class', 'pd-0');
-    $categoryImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + response.results[i].poster_path);
+    $categoryImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + response[i].poster_path);
     $categoryImg.setAttribute('class', 'border-r');
-    $categoryImg.setAttribute('id', response.results[i].id);
+    $categoryImg.setAttribute('id', response[i].id);
     $a.appendChild($categoryImg);
     $div.appendChild($a);
     DOMparent.appendChild($div);
@@ -165,7 +165,6 @@ var $carousel = document.querySelector('.carousel');
 $carousel.addEventListener('click', showDetails);
 $cViewContainer.addEventListener('click', showDetails);
 $nav.addEventListener('click', handleNav);
-$detail.addEventListener('click', addMovie);
 
 function handleNav(event) {
   viewSwap(event.target.getAttribute('data-view'));
@@ -187,7 +186,6 @@ function showDetails(event) {
     return;
   }
   if (event.target.tagName === ('IMG')) {
-    var $detail = document.querySelector('.detail');
     var targetId = event.target.id;
     while ($detail.firstChild) {
       $detail.removeChild($detail.firstChild);
@@ -204,6 +202,11 @@ function getDetails(id) {
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
     renderDetails(xhr.response);
+    var currentMovie = {
+      id: xhr.response.id,
+      poster_path: 'https://image.tmdb.org/t/p/w500/' + xhr.response.poster_path
+    };
+    data.movies.push(currentMovie);
   });
   xhr.send();
 }
@@ -253,9 +256,9 @@ function renderDetails(response) {
   $colFull.setAttribute('class', 'col-full pd-lr');
   var $button = document.createElement('button');
   $button.setAttribute('class', 'add-button');
-  // $button.setAttribute('id', response.id);
+  $button.setAttribute('id', response.id);
   $button.textContent = 'Add to My List';
-  // $button.addEventListener('click', addMovie);
+  $button.addEventListener('click', addMovie);
   var $detailInfo = document.createElement('div');
   $detailInfo.setAttribute('class', 'col-half pd-lr font-ver detail-info');
   var $h2 = document.createElement('h2');
@@ -308,11 +311,10 @@ function renderDetails(response) {
 
 function addMovie(event) {
   if (event.target.tagName === 'BUTTON') {
-    // var movie = {
-    //   id:,
-    //   imageURL:
-    // };
-    // data.watchlist.unshift(movie);
-    // console.log(data.watchlist);
+    for (var i = 0; i < data.movies.length; i++) {
+      if (Number.parseInt(event.target.id) === data.movies[i].id) {
+        data.watchlist.unshift(data.movies[i]);
+      }
+    }
   }
 }

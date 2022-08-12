@@ -16,6 +16,11 @@
   flex-wrap: wrap;
 }
 
+.list-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .row {
   display: flex;
   flex-wrap: wrap;

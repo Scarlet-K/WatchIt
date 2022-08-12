@@ -2,6 +2,7 @@
 
 var data = {
   view: 'home',
+  movies: [],
   watchlist: [],
   nextFilmId: 1
 };
