@@ -165,6 +165,7 @@ var $carousel = document.querySelector('.carousel');
 $carousel.addEventListener('click', showDetails);
 $cViewContainer.addEventListener('click', showDetails);
 $nav.addEventListener('click', handleNav);
+$detail.addEventListener('click', addMovie);
 
 function handleNav(event) {
   viewSwap(event.target.getAttribute('data-view'));
@@ -252,7 +253,9 @@ function renderDetails(response) {
   $colFull.setAttribute('class', 'col-full pd-lr');
   var $button = document.createElement('button');
   $button.setAttribute('class', 'add-button');
+  // $button.setAttribute('id', response.id);
   $button.textContent = 'Add to My List';
+  // $button.addEventListener('click', addMovie);
   var $detailInfo = document.createElement('div');
   $detailInfo.setAttribute('class', 'col-half pd-lr font-ver detail-info');
   var $h2 = document.createElement('h2');
@@ -301,4 +304,15 @@ function renderDetails(response) {
   $detailInfo.appendChild($div);
   $date.after($dateP);
   $detail.appendChild($row);
+}
+
+function addMovie(event) {
+  if (event.target.tagName === 'BUTTON') {
+    // var movie = {
+    //   id:,
+    //   imageURL:
+    // };
+    // data.watchlist.unshift(movie);
+    // console.log(data.watchlist);
+  }
 }

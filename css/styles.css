@@ -56,7 +56,7 @@ img {
 }
 
 .font-s {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
 }
 
 .grey-font {
@@ -190,4 +190,5 @@ h4 ~ p {
   border-radius: 0.2rem;
   background-color: #242429;
   color: white;
+  cursor: pointer;
 }
