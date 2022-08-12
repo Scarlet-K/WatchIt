@@ -82,14 +82,14 @@ function getCategory(string1, string2, DOMparent) {
 }
 
 function renderCategory(response, DOMparent) {
-  /*
-  <div class= "c-view">
-    <div class= "col-fourth pd">
-      <a href= "#" class= "pd-0">
-        <img src= "" class= "border-r" id= "">
-      </a>
-    </div>
+/*
+<div class= "c-view">
+  <div class= "col-fourth pd">
+    <a href= "#" class= "pd-0">
+      <img src= "" class= "border-r" id= "">
+    </a>
   </div>
+</div>
 */
   for (var i = 0; i < response.length; i++) {
     var $div = document.createElement('div');
@@ -162,13 +162,11 @@ var $nav = document.querySelector('.nav');
 var $views = document.querySelectorAll('.view');
 var $detail = document.querySelector('.detail');
 var $carousel = document.querySelector('.carousel');
+var $listContainer = document.querySelector('.list-container');
+$listContainer.addEventListener('click', showDetails);
 $carousel.addEventListener('click', showDetails);
 $cViewContainer.addEventListener('click', showDetails);
 $nav.addEventListener('click', handleNav);
-
-function handleNav(event) {
-  viewSwap(event.target.getAttribute('data-view'));
-}
 
 function viewSwap(string) {
   for (var i = 0; i < $views.length; i++) {
@@ -179,6 +177,51 @@ function viewSwap(string) {
     }
   }
   data.view = string;
+}
+
+function handleNav(event) {
+  if (event.target.getAttribute('data-view') === 'list') {
+    while ($listContainer.firstChild) {
+      $listContainer.removeChild($listContainer.firstChild);
+    }
+    for (var i = 0; i < data.watchlist.length; i++) {
+      var $MyList = renderMyList(data.watchlist[i]);
+      $listContainer.appendChild($MyList);
+    }
+  }
+  viewSwap(event.target.getAttribute('data-view'));
+}
+
+function addMovie(event) {
+  if (event.target.tagName === 'BUTTON') {
+    for (var i = 0; i < data.movies.length; i++) {
+      if (Number.parseInt(event.target.id) === data.movies[i].id) {
+        data.watchlist.unshift(data.movies[i]);
+      }
+    }
+  }
+}
+
+function renderMyList(watchlist) {
+  /*
+  <div class= "col-fourth pd">
+    <a href= "#" class= "pd-0">
+      <img src= "" class= "border-r" id= "">
+    </a>
+  </div>
+  */
+  var $div = document.createElement('div');
+  var $a = document.createElement('a');
+  var $categoryImg = document.createElement('img');
+  $div.setAttribute('class', 'col-fourth pd');
+  $a.setAttribute('href', '#');
+  $a.setAttribute('class', 'pd-0');
+  $categoryImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + watchlist.poster_path);
+  $categoryImg.setAttribute('class', 'border-r');
+  $categoryImg.setAttribute('id', watchlist.id);
+  $a.appendChild($categoryImg);
+  $div.appendChild($a);
+  return $div;
 }
 
 function showDetails(event) {
@@ -193,6 +236,7 @@ function showDetails(event) {
     getDetails(targetId);
     $detail.classList.remove('hidden');
     $home.classList.add('hidden');
+    $listContainer.classList.add('hidden');
   }
 }
 
@@ -212,33 +256,33 @@ function getDetails(id) {
 }
 
 function renderDetails(response) {
-  /*
-  <div class= "row pd-tb3">
-    <div class= "col-half">
-      <div class= "row">
-        <div class= "col-full pd-lr detail-poster">
-          <img>
-        </div>
-        <div class= "row text-end pd-tb1">
-          <div class= "col-full pd-lr">
-            <button class= "add-button">Add to My List</button>
-          </div>
-        </div>
+/*
+<div class= "row pd-tb3">
+  <div class= "col-half">
+    <div class= "row">
+      <div class= "col-full pd-lr detail-poster">
+        <img>
       </div>
-    </div>
-    <div class= "col-half pd-lr font-ver detail-info">
-      <h2></h2>
-      <p class= "font-work grey-font"></p>
-      <div class= "pd-tb">
-        <h4></h4>
-        <p class= "font-work font-s grey-font"></p>
-        <h4></h4>
-        <span class= "font-work font-s grey-font"></span>
-        <h4></h4>
-        <span class= "font-work font-s grey-font"></span>
+      <div class= "row text-end pd-tb1">
+        <div class= "col-full pd-lr">
+          <button class= "add-button">Add to My List</button>
+        </div>
       </div>
     </div>
   </div>
+  <div class= "col-half pd-lr font-ver detail-info">
+    <h2></h2>
+    <p class= "font-work grey-font"></p>
+    <div class= "pd-tb">
+      <h4></h4>
+      <p class= "font-work font-s grey-font"></p>
+      <h4></h4>
+      <span class= "font-work font-s grey-font"></span>
+      <h4></h4>
+      <span class= "font-work font-s grey-font"></span>
+    </div>
+  </div>
+</div>
 */
   var $row = document.createElement('div');
   $row.setAttribute('class', 'row pd-tb3');
@@ -307,14 +351,4 @@ function renderDetails(response) {
   $detailInfo.appendChild($div);
   $date.after($dateP);
   $detail.appendChild($row);
-}
-
-function addMovie(event) {
-  if (event.target.tagName === 'BUTTON') {
-    for (var i = 0; i < data.movies.length; i++) {
-      if (Number.parseInt(event.target.id) === data.movies[i].id) {
-        data.watchlist.unshift(data.movies[i]);
-      }
-    }
-  }
 }
