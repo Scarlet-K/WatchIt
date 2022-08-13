@@ -3,6 +3,13 @@
 var data = {
   view: 'home',
   movies: [],
+  categories: {
+    nowPlaying: [],
+    topRated: [],
+    trending: [],
+    popular: [],
+    upcoming: []
+  },
   watchlist: [],
   nextFilmId: 1
 };

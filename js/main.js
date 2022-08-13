@@ -1,4 +1,4 @@
-var images = [];
+// var images = [];
 var $carouselImg = document.querySelector('.carousel-image');
 var intervalID = setInterval(getNextFilm, 3000);
 var index = 0;
@@ -18,23 +18,23 @@ function showNextImage(event) {
 function getPreviousFilm() {
   if (index !== 0) {
     index--;
-    $carouselImg.setAttribute('src', images[index].url);
-    $carouselImg.setAttribute('id', images[index].id);
+    $carouselImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + data.categories.nowPlaying[index].poster_path);
+    $carouselImg.setAttribute('id', data.categories.nowPlaying[index].id);
   } else {
-    index = images.length - 1;
-    $carouselImg.setAttribute('src', images[index].url);
-    $carouselImg.setAttribute('id', images[index].id);
+    index = data.categories.nowPlaying.length - 1;
+    $carouselImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + data.categories.nowPlaying[index].poster_path);
+    $carouselImg.setAttribute('id', data.categories.nowPlaying[index].id);
   }
 }
 function getNextFilm() {
-  if (index < images.length - 1) {
+  if (index < data.categories.nowPlaying.length - 1) {
     index++;
-    $carouselImg.setAttribute('src', images[index].url);
-    $carouselImg.setAttribute('id', images[index].id);
+    $carouselImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + data.categories.nowPlaying[index].poster_path);
+    $carouselImg.setAttribute('id', data.categories.nowPlaying[index].id);
   } else {
     index = 0;
-    $carouselImg.setAttribute('src', images[0].url);
-    $carouselImg.setAttribute('id', images[0].id);
+    $carouselImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + data.categories.nowPlaying[0].poster_path);
+    $carouselImg.setAttribute('id', data.categories.nowPlaying[0].id);
   }
 }
 function setInt() {
@@ -48,66 +48,89 @@ function getCarouselImg() {
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
     for (var i = 0; i < xhr.response.results.length; i++) {
-      var imageObj = {
-        url: 'https://image.tmdb.org/t/p/w500/' + xhr.response.results[i].poster_path,
-        id: xhr.response.results[i].id
-      };
-      images.push(imageObj);
-      $carouselImg.setAttribute('src', images[0].url);
-      $carouselImg.setAttribute('id', images[0].id);
+      data.categories.nowPlaying = xhr.response.results;
+      $carouselImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + data.categories.nowPlaying[0].poster_path);
+      $carouselImg.setAttribute('id', data.categories.nowPlaying[0].id);
     }
+    // for (var i = 0; i < xhr.response.results.length; i++) {
+    //   var imageObj = {
+    //     url: 'https://image.tmdb.org/t/p/w500/' + xhr.response.results[i].poster_path,
+    //     id: xhr.response.results[i].id
+    //   };
+    //   images.push(imageObj);
+    //   $carouselImg.setAttribute('src', images[0].url);
+    //   $carouselImg.setAttribute('id', images[0].id);
+    // }
   });
   xhr.send();
 }
 getCarouselImg();
 
-var $topRated = document.querySelector('.top-rated');
-var $trending = document.querySelector('.trending');
-var $popular = document.querySelector('.popular');
-var $upcoming = document.querySelector('.upcoming');
+// var $topRated = document.querySelector('.top-rated');
+// var $trending = document.querySelector('.trending');
+// var $popular = document.querySelector('.popular');
+// var $upcoming = document.querySelector('.upcoming');
 var $tabContainer = document.querySelector('.tab-container');
 var $cViewContainer = document.querySelector('.c-view-container');
 var $tabList = document.querySelectorAll('.tab');
-var $cViews = document.querySelectorAll('.c-view');
+// var $cViews = document.querySelectorAll('.c-view');
 $tabContainer.addEventListener('click', handleTabClick);
 
-function getCategory(string1, string2, DOMparent) {
+// function getCategory(string1, string2, DOMparent) {
+//   var xhr = new XMLHttpRequest();
+//   xhr.open('GET', 'https://api.themoviedb.org/3/' + string1 + 'movie/' + string2 + '?api_key=d7a558bf3c164e7e0d8761462a9973e2&language=en-US');
+//   xhr.responseType = 'json';
+//   xhr.addEventListener('load', function () {
+//     $cViewContainer.appendChild(renderCategory(xhr.response.results, DOMparent));
+//   });
+//   xhr.send();
+// }
+
+function getCategory(category, string1, string2) {
   var xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://api.themoviedb.org/3/' + string1 + 'movie/' + string2 + '?api_key=d7a558bf3c164e7e0d8761462a9973e2&language=en-US');
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
-    $cViewContainer.appendChild(renderCategory(xhr.response.results, DOMparent));
+    data.categories[category] = xhr.response.results;
+    // console.log(data.categories);
+    for (var i = 0; i < data.categories[category].length; i++) {
+      renderCategory(data.categories[category][i]);
+      $cViewContainer.append(renderCategory(data.categories[category][i]));
+    }
   });
   xhr.send();
 }
+getCategory('topRated', '', 'top_rated');
 
-function renderCategory(response, DOMparent) {
-/*
-<div class= "c-view">
-  <div class= "col-fourth pd">
-    <a href= "#" class= "pd-0">
-      <img src= "" class= "border-r" id= "">
-    </a>
+// made data model object for each category
+// append to the view container
+// default shows top rated movies
+
+function renderCategory(category) {
+  /*
+  <div class= "c-view category" data-view= "category">
+    <div class= "col-fourth pd">
+      <a href= "#" class= "pd-0">
+        <img src= "" class= "border-r" id= "">
+      </a>
+    </div>
   </div>
-</div>
-*/
-  for (var i = 0; i < response.length; i++) {
-    var $div = document.createElement('div');
-    var $a = document.createElement('a');
-    var $categoryImg = document.createElement('img');
-    $div.setAttribute('class', 'col-fourth pd');
-    $a.setAttribute('href', '#');
-    $a.setAttribute('class', 'pd-0');
-    $categoryImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + response[i].poster_path);
-    $categoryImg.setAttribute('class', 'border-r');
-    $categoryImg.setAttribute('id', response[i].id);
-    $a.appendChild($categoryImg);
-    $div.appendChild($a);
-    DOMparent.appendChild($div);
-  }
-  return DOMparent;
+  */
+  var $colFourth = document.createElement('div');
+  var $a = document.createElement('a');
+  var $categoryImg = document.createElement('img');
+  $colFourth.setAttribute('class', 'col-fourth pd');
+  $a.setAttribute('href', '#');
+  $a.setAttribute('class', 'pd-0');
+  $categoryImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + category.poster_path);
+  $categoryImg.setAttribute('class', 'border-r');
+  $categoryImg.setAttribute('id', category.id);
+  $a.appendChild($categoryImg);
+  $colFourth.appendChild($a);
+  return $colFourth;
 }
-getCategory('', 'top_rated', $topRated);
+
+// made DOM tree for categories
 
 function handleTabClick(event) {
   if (!event.target.matches('.tab')) {
@@ -120,42 +143,133 @@ function handleTabClick(event) {
       $tabList[i].classList.remove('active');
     }
   }
-  if (event.target.getAttribute('data-view') === 'top-rated') {
-    while ($topRated.firstChild) {
-      $topRated.removeChild($topRated.firstChild);
+  var targetData = event.target.getAttribute('data-view');
+  if (targetData === 'topRated') {
+    while ($cViewContainer.firstChild) {
+      $cViewContainer.removeChild($cViewContainer.firstChild);
     }
-    getCategory('', 'top_rated', $topRated);
-    categorySwap('top-rated');
-  } else if ((event.target.getAttribute('data-view') === 'trending')) {
-    while ($trending.firstChild) {
-      $trending.removeChild($trending.firstChild);
+    getCategory(targetData, '', 'top_rated');
+  } else if (targetData === 'trending') {
+    while ($cViewContainer.firstChild) {
+      $cViewContainer.removeChild($cViewContainer.firstChild);
     }
-    getCategory('trending/', 'week', $trending);
-    categorySwap('trending');
-  } else if ((event.target.getAttribute('data-view') === 'popular')) {
-    while ($popular.firstChild) {
-      $popular.removeChild($popular.firstChild);
+    getCategory(targetData, 'trending/', 'week');
+  } else if (targetData === 'popular') {
+    while ($cViewContainer.firstChild) {
+      $cViewContainer.removeChild($cViewContainer.firstChild);
     }
-    getCategory('', 'popular', $popular);
-    categorySwap('popular');
-  } else if ((event.target.getAttribute('data-view') === 'upcoming')) {
-    while ($upcoming.firstChild) {
-      $upcoming.removeChild($upcoming.firstChild);
+    getCategory(targetData, '', 'popular');
+  } else if (targetData === 'upcoming') {
+    while ($cViewContainer.firstChild) {
+      $cViewContainer.removeChild($cViewContainer.firstChild);
     }
-    getCategory('', 'upcoming', $upcoming);
-    categorySwap('upcoming');
+    getCategory(targetData, '', 'upcoming');
   }
+  // check that the event started from the tab not the tab container
+  // then check which tab they clicked by comparing the clicked tab's DOM element with where the event started
+  // if they match get the event target's data-view attribute
+  // check if the data-view attribute matches with any of the data model's categories
+  // if it matches, get the category
+  // delete the previous category
+
+  // if (event.target.getAttribute('data-view') === 'topRated') {
+  //   while ($cViewContainer.firstChild) {
+  //     $cViewContainer.removeChild($cViewContainer.firstChild);
+  //   }
+  //   getCategory('topRated', '', 'top_rated');
+  // } else if ((event.target.getAttribute('data-view') === 'trending')) {
+  //   while ($cViewContainer.firstChild) {
+  //     $cViewContainer.removeChild($cViewContainer.firstChild);
+  //   }
+  //   getCategory('trending', 'trending/', 'week');
+  // } else if ((event.target.getAttribute('data-view') === 'popular')) {
+  //   while ($cViewContainer.firstChild) {
+  //     $cViewContainer.removeChild($cViewContainer.firstChild);
+  //   }
+  //   getCategory('popular', '', 'popular');
+  // } else if ((event.target.getAttribute('data-view') === 'upcoming')) {
+  //   while ($cViewContainer.firstChild) {
+  //     $cViewContainer.removeChild($cViewContainer.firstChild);
+  //   }
+  //   getCategory('upcoming', '', 'upcoming');
+  // }
 }
 
-function categorySwap(string) {
-  for (var c = 0; c < $cViews.length; c++) {
-    if (event.target.getAttribute('data-view') === $cViews[c].getAttribute('data-view')) {
-      $cViews[c].classList.remove('hidden');
-    } else {
-      $cViews[c].classList.add('hidden');
-    }
-  }
-}
+// function renderCategory(response, DOMparent) {
+// /*
+// <div class= "c-view">
+//   <div class= "col-fourth pd">
+//     <a href= "#" class= "pd-0">
+//       <img src= "" class= "border-r" id= "">
+//     </a>
+//   </div>
+// </div>
+// */
+//   for (var i = 0; i < response.length; i++) {
+//     var $div = document.createElement('div');
+//     var $a = document.createElement('a');
+//     var $categoryImg = document.createElement('img');
+//     $div.setAttribute('class', 'col-fourth pd');
+//     $a.setAttribute('href', '#');
+//     $a.setAttribute('class', 'pd-0');
+//     $categoryImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + response[i].poster_path);
+//     $categoryImg.setAttribute('class', 'border-r');
+//     $categoryImg.setAttribute('id', response[i].id);
+//     $a.appendChild($categoryImg);
+//     $div.appendChild($a);
+//     DOMparent.appendChild($div);
+//   }
+//   return DOMparent;
+// }
+// getCategory('', 'top_rated', $topRated);
+
+// function handleTabClick(event) {
+//   if (!event.target.matches('.tab')) {
+//     return;
+//   }
+//   for (var i = 0; i < $tabList.length; i++) {
+//     if (event.target === $tabList[i]) {
+//       $tabList[i].classList.add('active');
+//     } else {
+//       $tabList[i].classList.remove('active');
+//     }
+//   }
+//   if (event.target.getAttribute('data-view') === 'top-rated') {
+//     while ($topRated.firstChild) {
+//       $topRated.removeChild($topRated.firstChild);
+//     }
+//     getCategory('', 'top_rated', $topRated);
+//     categorySwap('top-rated');
+//   } else if ((event.target.getAttribute('data-view') === 'trending')) {
+//     while ($trending.firstChild) {
+//       $trending.removeChild($trending.firstChild);
+//     }
+//     getCategory('trending/', 'week', $trending);
+//     categorySwap('trending');
+//   } else if ((event.target.getAttribute('data-view') === 'popular')) {
+//     while ($popular.firstChild) {
+//       $popular.removeChild($popular.firstChild);
+//     }
+//     getCategory('', 'popular', $popular);
+//     categorySwap('popular');
+//   } else if ((event.target.getAttribute('data-view') === 'upcoming')) {
+//     while ($upcoming.firstChild) {
+//       $upcoming.removeChild($upcoming.firstChild);
+//     }
+//     getCategory('', 'upcoming', $upcoming);
+//     categorySwap('upcoming');
+//   }
+// }
+
+// function categorySwap(string) {
+//   for (var c = 0; c < $cViews.length; c++) {
+//     if (event.target.getAttribute('data-view') === $cViews[c].getAttribute('data-view')) {
+//       $cViews[c].classList.remove('hidden');
+//     } else {
+//       $cViews[c].classList.add('hidden');
+//     }
+//   }
+// }
 
 var $home = document.querySelector('.home');
 var $nav = document.querySelector('.nav');
@@ -170,7 +284,7 @@ $nav.addEventListener('click', handleNav);
 
 function viewSwap(string) {
   for (var i = 0; i < $views.length; i++) {
-    if (event.target.getAttribute('data-view') === $views[i].getAttribute('data-view')) {
+    if ($views[i].getAttribute('data-view') === string) {
       $views[i].classList.remove('hidden');
     } else {
       $views[i].classList.add('hidden');
@@ -254,10 +368,6 @@ function getDetails(id) {
   });
   xhr.send();
 }
-
-// function renderDetails() {
-
-// }
 
 // function renderDetails(response) {
 // /*
