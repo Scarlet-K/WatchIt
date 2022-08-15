@@ -1,37 +1,48 @@
-// var images = [];
+var $home = document.querySelector('.home');
+var $nav = document.querySelector('.nav');
+var $views = document.querySelectorAll('.view');
+var $detail = document.querySelector('.detail');
+var $tabContainer = document.querySelector('.tab-container');
+var $listContainer = document.querySelector('.list-container');
+var $cViewContainer = document.querySelector('.c-view-container');
+var $tabList = document.querySelectorAll('.tab');
+var $carousel = document.querySelector('.carousel');
 var $carouselImg = document.querySelector('.carousel-image');
 var intervalID = setInterval(getNextFilm, 3000);
 var index = 0;
 var $leftArrow = document.querySelector('.fa-chevron-left');
 var $rightArrow = document.querySelector('.fa-chevron-right');
+var $addButton = document.querySelector('.add-button');
+$nav.addEventListener('click', handleNav);
+$tabContainer.addEventListener('click', handleTabClick);
+$listContainer.addEventListener('click', showDetails);
+$cViewContainer.addEventListener('click', showDetails);
+$carousel.addEventListener('click', showDetails);
 $leftArrow.addEventListener('click', showPreviousImage);
 $rightArrow.addEventListener('click', showNextImage);
+$addButton.addEventListener('click', addMovie);
 
-getCarouselImg();
+getCategory('nowPlaying', '', 'now_playing');
+getCategory('topRated', '', 'top_rated');
 
-function getCarouselImg() {
+function getCategory(category, string1, string2) {
   var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://api.themoviedb.org/3/movie/now_playing?api_key=d7a558bf3c164e7e0d8761462a9973e2');
+  xhr.open('GET', 'https://api.themoviedb.org/3/' + string1 + 'movie/' + string2 + '?api_key=d7a558bf3c164e7e0d8761462a9973e2&language=en-US');
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
-    for (var i = 0; i < xhr.response.results.length; i++) {
-      data.categories.nowPlaying = xhr.response.results;
+    data.categories[category] = xhr.response.results;
+    if (category === 'nowPlaying') {
+      $carouselImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + data.categories.nowPlaying[0].poster_path);
+      $carouselImg.setAttribute('id', data.categories.nowPlaying[0].id);
+    } else {
+      for (var i = 0; i < data.categories[category].length; i++) {
+        renderMovie(data.categories[category][i]);
+        $cViewContainer.append(renderMovie(data.categories[category][i]));
+      }
     }
-    $carouselImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + data.categories.nowPlaying[0].poster_path);
-    $carouselImg.setAttribute('id', data.categories.nowPlaying[0].id);
-    // for (var i = 0; i < xhr.response.results.length; i++) {
-    //   var imageObj = {
-    //     url: 'https://image.tmdb.org/t/p/w500/' + xhr.response.results[i].poster_path,
-    //     id: xhr.response.results[i].id
-    //   };
-    //   images.push(imageObj);
-    //   $carouselImg.setAttribute('src', images[0].url);
-    //   $carouselImg.setAttribute('id', images[0].id);
-    // }
   });
   xhr.send();
 }
-
 function showPreviousImage(event) {
   getPreviousFilm();
   setInt();
@@ -66,46 +77,6 @@ function setInt() {
   clearInterval(intervalID);
   intervalID = setInterval(getNextFilm, 3000);
 }
-
-// var $topRated = document.querySelector('.top-rated');
-// var $trending = document.querySelector('.trending');
-// var $popular = document.querySelector('.popular');
-// var $upcoming = document.querySelector('.upcoming');
-var $tabContainer = document.querySelector('.tab-container');
-var $cViewContainer = document.querySelector('.c-view-container');
-var $tabList = document.querySelectorAll('.tab');
-// var $cViews = document.querySelectorAll('.c-view');
-$tabContainer.addEventListener('click', handleTabClick);
-
-// function getCategory(string1, string2, DOMparent) {
-//   var xhr = new XMLHttpRequest();
-//   xhr.open('GET', 'https://api.themoviedb.org/3/' + string1 + 'movie/' + string2 + '?api_key=d7a558bf3c164e7e0d8761462a9973e2&language=en-US');
-//   xhr.responseType = 'json';
-//   xhr.addEventListener('load', function () {
-//     $cViewContainer.appendChild(renderCategory(xhr.response.results, DOMparent));
-//   });
-//   xhr.send();
-// }
-
-function getCategory(category, string1, string2) {
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://api.themoviedb.org/3/' + string1 + 'movie/' + string2 + '?api_key=d7a558bf3c164e7e0d8761462a9973e2&language=en-US');
-  xhr.responseType = 'json';
-  xhr.addEventListener('load', function () {
-    data.categories[category] = xhr.response.results;
-    for (var i = 0; i < data.categories[category].length; i++) {
-      renderMovie(data.categories[category][i]);
-      $cViewContainer.append(renderMovie(data.categories[category][i]));
-    }
-  });
-  xhr.send();
-}
-getCategory('topRated', '', 'top_rated');
-
-// made data model object for each category
-// append to the view container
-// default shows top rated movies
-
 function renderMovie(movie) {
 /*
 <div class= "col-fourth pd">
@@ -127,9 +98,6 @@ function renderMovie(movie) {
   $colFourth.appendChild($a);
   return $colFourth;
 }
-
-// made DOM tree for categories
-
 function handleTabClick(event) {
   if (!event.target.matches('.tab')) {
     return;
@@ -163,123 +131,7 @@ function handleTabClick(event) {
     }
     getCategory(targetData, '', 'upcoming');
   }
-  // check that the event started from the tab not the tab container
-  // then check which tab they clicked by comparing the clicked tab's DOM element with where the event started
-  // if they match get the event target's data-view attribute
-  // check if the data-view attribute matches with any of the data model's categories
-  // if it matches, get the category
-  // delete the previous category
-
-  // if (event.target.getAttribute('data-view') === 'topRated') {
-  //   while ($cViewContainer.firstChild) {
-  //     $cViewContainer.removeChild($cViewContainer.firstChild);
-  //   }
-  //   getCategory('topRated', '', 'top_rated');
-  // } else if ((event.target.getAttribute('data-view') === 'trending')) {
-  //   while ($cViewContainer.firstChild) {
-  //     $cViewContainer.removeChild($cViewContainer.firstChild);
-  //   }
-  //   getCategory('trending', 'trending/', 'week');
-  // } else if ((event.target.getAttribute('data-view') === 'popular')) {
-  //   while ($cViewContainer.firstChild) {
-  //     $cViewContainer.removeChild($cViewContainer.firstChild);
-  //   }
-  //   getCategory('popular', '', 'popular');
-  // } else if ((event.target.getAttribute('data-view') === 'upcoming')) {
-  //   while ($cViewContainer.firstChild) {
-  //     $cViewContainer.removeChild($cViewContainer.firstChild);
-  //   }
-  //   getCategory('upcoming', '', 'upcoming');
-  // }
 }
-
-// function renderCategory(response, DOMparent) {
-// /*
-// <div class= "c-view">
-//   <div class= "col-fourth pd">
-//     <a href= "#" class= "pd-0">
-//       <img src= "" class= "border-r" id= "">
-//     </a>
-//   </div>
-// </div>
-// */
-//   for (var i = 0; i < response.length; i++) {
-//     var $div = document.createElement('div');
-//     var $a = document.createElement('a');
-//     var $categoryImg = document.createElement('img');
-//     $div.setAttribute('class', 'col-fourth pd');
-//     $a.setAttribute('href', '#');
-//     $a.setAttribute('class', 'pd-0');
-//     $categoryImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + response[i].poster_path);
-//     $categoryImg.setAttribute('class', 'border-r');
-//     $categoryImg.setAttribute('id', response[i].id);
-//     $a.appendChild($categoryImg);
-//     $div.appendChild($a);
-//     DOMparent.appendChild($div);
-//   }
-//   return DOMparent;
-// }
-// getCategory('', 'top_rated', $topRated);
-
-// function handleTabClick(event) {
-//   if (!event.target.matches('.tab')) {
-//     return;
-//   }
-//   for (var i = 0; i < $tabList.length; i++) {
-//     if (event.target === $tabList[i]) {
-//       $tabList[i].classList.add('active');
-//     } else {
-//       $tabList[i].classList.remove('active');
-//     }
-//   }
-//   if (event.target.getAttribute('data-view') === 'top-rated') {
-//     while ($topRated.firstChild) {
-//       $topRated.removeChild($topRated.firstChild);
-//     }
-//     getCategory('', 'top_rated', $topRated);
-//     categorySwap('top-rated');
-//   } else if ((event.target.getAttribute('data-view') === 'trending')) {
-//     while ($trending.firstChild) {
-//       $trending.removeChild($trending.firstChild);
-//     }
-//     getCategory('trending/', 'week', $trending);
-//     categorySwap('trending');
-//   } else if ((event.target.getAttribute('data-view') === 'popular')) {
-//     while ($popular.firstChild) {
-//       $popular.removeChild($popular.firstChild);
-//     }
-//     getCategory('', 'popular', $popular);
-//     categorySwap('popular');
-//   } else if ((event.target.getAttribute('data-view') === 'upcoming')) {
-//     while ($upcoming.firstChild) {
-//       $upcoming.removeChild($upcoming.firstChild);
-//     }
-//     getCategory('', 'upcoming', $upcoming);
-//     categorySwap('upcoming');
-//   }
-// }
-
-// function categorySwap(string) {
-//   for (var c = 0; c < $cViews.length; c++) {
-//     if (event.target.getAttribute('data-view') === $cViews[c].getAttribute('data-view')) {
-//       $cViews[c].classList.remove('hidden');
-//     } else {
-//       $cViews[c].classList.add('hidden');
-//     }
-//   }
-// }
-
-var $home = document.querySelector('.home');
-var $nav = document.querySelector('.nav');
-var $views = document.querySelectorAll('.view');
-var $detail = document.querySelector('.detail');
-var $carousel = document.querySelector('.carousel');
-var $listContainer = document.querySelector('.list-container');
-$listContainer.addEventListener('click', showDetails);
-$carousel.addEventListener('click', showDetails);
-$cViewContainer.addEventListener('click', showDetails);
-$nav.addEventListener('click', handleNav);
-
 function viewSwap(string) {
   for (var i = 0; i < $views.length; i++) {
     if ($views[i].getAttribute('data-view') === string) {
@@ -290,7 +142,6 @@ function viewSwap(string) {
   }
   data.view = string;
 }
-
 function handleNav(event) {
   if (event.target.getAttribute('data-view') === 'list') {
     while ($listContainer.firstChild) {
@@ -303,38 +154,34 @@ function handleNav(event) {
   }
   viewSwap(event.target.getAttribute('data-view'));
 }
+function addMovie(event) {
+  addButton();
+}
 
-// function addMovie(event) {
-//   if (event.target.tagName === 'BUTTON') {
-//     for (var i = 0; i < data.movies.length; i++) {
-//       if (Number.parseInt(event.target.id) === data.movies[i].id) {
-//         data.watchlist.unshift(data.movies[i]);
-//       }
-//     }
-//   }
-// }
+function addButton() {
+  var found = false;
+  for (var i = 0; i < data.watchlist.length; i++) {
+    if (data.details.id === data.watchlist[i].id) {
+      found = true;
+    } else {
+      found = false;
+    }
+  }
+  if ((event.target.textContent === 'Add to My List') && (found === false)) {
+    data.watchlist.push(data.details);
+    event.target.textContent = 'Remove';
+  } else if (event.target.textContent === 'Remove') {
+    event.target.textContent = 'Add to My List';
+    data.watchlist.pop();
+  }
+}
 
-// function renderMyList(watchlist) {
-//   /*
-//   <div class= "col-fourth pd">
-//     <a href= "#" class= "pd-0">
-//       <img src= "" class= "border-r" id= "">
-//     </a>
-//   </div>
-//   */
-//   var $div = document.createElement('div');
-//   var $a = document.createElement('a');
-//   var $categoryImg = document.createElement('img');
-//   $div.setAttribute('class', 'col-fourth pd');
-//   $a.setAttribute('href', '#');
-//   $a.setAttribute('class', 'pd-0');
-//   $categoryImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + watchlist.poster_path);
-//   $categoryImg.setAttribute('class', 'border-r');
-//   $categoryImg.setAttribute('id', watchlist.id);
-//   $a.appendChild($categoryImg);
-//   $div.appendChild($a);
-//   return $div;
-// }
+// when the user clicks the add button the text turns to remove
+// when the user clicks the remove button the text turns to add
+// if the user clicks the add button the movie is added to the watchlist
+// if the user cliks the remove button the movie is deleted from the watchlist
+// if the movie is already in the watchlist, the user sees a remove button
+// if the movie is not in the watchlist, the user sees an add button
 
 function showDetails(event) {
   if (!event.target.tagName === ('IMG')) {
@@ -342,229 +189,43 @@ function showDetails(event) {
   }
   if (event.target.tagName === ('IMG')) {
     var targetId = event.target.id;
-    // while ($detail.firstChild) {
-    //   $detail.removeChild($detail.firstChild);
-    // }
     getDetails(targetId);
     $detail.classList.remove('hidden');
     $home.classList.add('hidden');
     $listContainer.classList.add('hidden');
   }
 }
-
 function getDetails(id) {
   var xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://api.themoviedb.org/3/movie/' + id + '?api_key=d7a558bf3c164e7e0d8761462a9973e2&language=en-US');
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
-    var currentMovie = xhr.response;
-    data.details = currentMovie;
+    data.details = xhr.response;
     renderDetails(data.details);
-    // var found = false;
-    // if (data.details.length === 0) {
-    //   data.details.push(currentMovie);
-    // }
-    // for (var i = 0; i < data.details.length; i++) {
-    //   if (data.details[i].id === currentMovie.id) {
-    //     found = true;
-    //     break;
-    //   } else {
-    //     found = false;
-    //   }
-    // }
-    // if (found === false) {
-    //   data.details.push(currentMovie);
-    // }
   });
   xhr.send();
 }
-
-// get the details of the movie
-// save the data into a variable currentMovie
-// if the data model array of details is empty, push the currentMovie details into the array
-// if the data model array of details is NOT empty, check if the currentMovie is already inside the array
-// if not, add it to the array
-// if yes, do not add it to the array
-
 function renderDetails(details) {
-/*
-<div class= "col-half pd-lr font-ver detail-info">
-  <h2></h2>
-  <i class= "fa-solid fa-star yellow"></i>
-  <span class= "pd-lr-h"></span>
-  <p class= "font-work grey-font"></p>
-  <div class= "pd-tb">
-    <h4></h4>
-    <p class= "font-work font-s grey-font"></p>
-    <h4></h4>
-    <p class= "font-work font-s grey-font"></p>
-    <h4></h4>
-    <p class= "font-work font-s grey-font"></p>
-  </div>
-</div>
-*/
-  var $row = document.querySelector('.detail > .row');
-  var $detailPoster = document.querySelector('.detail-poster');
-  var $img = document.createElement('img');
+  var $img = document.querySelector('.detail-poster > img');
   $img.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + details.poster_path);
-  $detailPoster.appendChild($img);
-
-  var $detailInfo = document.createElement('div');
-  $detailInfo.setAttribute('class', 'col-half pd-lr font-ver detail-info');
-  var $h2 = document.createElement('h2');
+  var $h2 = document.querySelector('.title');
   $h2.textContent = details.title;
-  var $star = document.createElement('i');
-  $star.setAttribute('class', 'fa-solid fa-star yellow');
-  var $rating = document.createElement('span');
-  $rating.setAttribute('class', 'pd-lr-h');
+  var $rating = document.querySelector('.rating');
   $rating.textContent = details.vote_average.toFixed(1);
-  var $p = document.createElement('p');
-  $p.textContent = details.overview;
-  $p.setAttribute('class', 'font-work grey-font');
-  var $div = document.createElement('div');
-  $div.setAttribute('class', 'pd-tb');
-  var $date = document.createElement('h4');
-  $date.textContent = 'Release Date';
-  var $prod = document.createElement('h4');
-  $prod.textContent = 'Production Companies';
-  var $genre = document.createElement('h4');
-  $genre.textContent = 'Genres';
-  var $dateP = document.createElement('p');
-  $dateP.textContent = details.release_date;
-  $dateP.setAttribute('class', 'font-work font-s grey-font');
-  $div.append($date, $prod, $genre);
-  for (var i = 0; i < details.production_companies.length; i++) {
-    var $prodP = document.createElement('p');
-    $prodP.textContent = details.production_companies[i].name;
-    $prodP.setAttribute('class', 'font-work font-s grey-font');
-    $prod.after($prodP);
+  var $overview = document.querySelector('.overview');
+  $overview.textContent = details.overview;
+  var $date = document.querySelector('p.date');
+  $date.textContent = details.release_date;
+  var $prod = document.querySelector('p.prod');
+  var $prodText = details.production_companies[0].name;
+  for (var i = 1; i < details.production_companies.length; i++) {
+    $prodText += ', ' + details.production_companies[i].name;
   }
-  for (var k = 0; k < details.genres.length; k++) {
-    var $genreP = document.createElement('p');
-    $genreP.textContent = details.genres[k].name;
-    $genreP.setAttribute('class', 'font-work font-s grey-font');
-    $genre.after($genreP);
+  $prod.textContent = $prodText;
+  var $genre = document.querySelector('p.genres');
+  var $text = details.genres[0].name;
+  for (var k = 1; k < details.genres.length; k++) {
+    $text += ', ' + details.genres[k].name;
   }
-
-  $detailInfo.append($h2, $star, $rating, $p);
-  $detailInfo.appendChild($div);
-  $date.after($dateP);
-  $row.appendChild($detailInfo);
+  $genre.textContent = $text;
 }
-
-// function renderDetails(response) {
-// /*
-// <div class= "row pd-tb3">
-//   <div class= "col-half">
-//     <div class= "row">
-//       <div class= "col-full pd-lr detail-poster">
-//         <img>
-//       </div>
-//       <div class= "row text-end pd-tb1">
-//         <div class= "col-full pd-lr">
-//           <button class= "add-button">Add to My List</button>
-//         </div>
-//       </div>
-//     </div>
-//   </div>
-//   <div class= "col-half pd-lr font-ver detail-info">
-//     <h2></h2>
-//     <i class= "fa-solid fa-star yellow"></i>
-//     <span class= "pd-lr-h"></span>
-//     <p class= "font-work grey-font"></p>
-//     <div class= "pd-tb">
-//       <h4></h4>
-//       <p class= "font-work font-s grey-font"></p>
-//       <h4></h4>
-//       <span class= "font-work font-s grey-font"></span>
-//       <h4></h4>
-//       <span class= "font-work font-s grey-font"></span>
-//     </div>
-//   </div>
-// </div>
-// */
-//   var $row = document.createElement('div');
-//   $row.setAttribute('class', 'row pd-tb3');
-//   var $colHalf = document.createElement('div');
-//   $colHalf.setAttribute('class', 'col-half');
-//   var $posterRow = document.createElement('div');
-//   $posterRow.setAttribute('class', 'row');
-//   var $detailPoster = document.createElement('div');
-//   $detailPoster.setAttribute('class', 'col-full pd-lr detail-poster');
-//   var $img = document.createElement('img');
-//   $img.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + response.poster_path);
-//   var $rowButton = document.createElement('div');
-//   $rowButton.setAttribute('class', 'row text-end pd-tb1');
-//   var $colFull = document.createElement('div');
-//   $colFull.setAttribute('class', 'col-full pd-lr');
-//   var $button = document.createElement('button');
-//   $button.setAttribute('class', 'add-button');
-//   $button.setAttribute('id', response.id);
-//   $button.textContent = 'Add to My List';
-//   $button.addEventListener('click', addMovie);
-//   // console.log(data.watchlist);
-//   // console.log(response.id);
-//   for (var t = 0; t < data.watchlist.length; t++) {
-//     for (var y = 0; y < data.movies.length; y++) {
-//       if (data.movies[y].id === data.watchlist[t].id) {
-//         $button.setAttribute('class', 'remove-button');
-//         $button.setAttribute('id', response.id);
-//         $button.textContent = 'Remove';
-//         // $button.addEventListener('click', addMovie);
-//       } else {
-//         $button.setAttribute('class', 'add-button');
-//         $button.setAttribute('id', response.id);
-//         $button.textContent = 'Add to My List';
-//         $button.addEventListener('click', addMovie);
-//       }
-//     }
-//   }
-//   var $detailInfo = document.createElement('div');
-//   $detailInfo.setAttribute('class', 'col-half pd-lr font-ver detail-info');
-//   var $h2 = document.createElement('h2');
-//   $h2.textContent = response.title;
-//   var $star = document.createElement('i');
-//   $star.setAttribute('class', 'fa-solid fa-star yellow');
-//   var $rating = document.createElement('span');
-//   $rating.setAttribute('class', 'pd-lr-h');
-//   $rating.textContent = response.vote_average.toFixed(1);
-//   var $p = document.createElement('p');
-//   $p.textContent = response.overview;
-//   $p.setAttribute('class', 'font-work grey-font');
-//   var $div = document.createElement('div');
-//   $div.setAttribute('class', 'pd-tb');
-//   var $date = document.createElement('h4');
-//   $date.textContent = 'Release Date';
-//   var $prod = document.createElement('h4');
-//   $prod.textContent = 'Production Companies';
-//   var $genre = document.createElement('h4');
-//   $genre.textContent = 'Genres';
-//   var $dateP = document.createElement('p');
-//   $dateP.textContent = response.release_date;
-//   $dateP.setAttribute('class', 'font-work font-s grey-font');
-//   $div.append($date, $prod, $genre);
-//   for (var i = 0; i < response.production_companies.length; i++) {
-//     var $prodP = document.createElement('p');
-//     $prodP.textContent = response.production_companies[i].name;
-//     $prodP.setAttribute('class', 'font-work font-s grey-font');
-//     $prod.after($prodP);
-//   }
-//   for (var k = 0; k < response.genres.length; k++) {
-//     var $genreP = document.createElement('p');
-//     $genreP.textContent = response.genres[k].name;
-//     $genreP.setAttribute('class', 'font-work font-s grey-font');
-//     $genre.after($genreP);
-//   }
-//   $row.appendChild($colHalf);
-//   $colHalf.appendChild($posterRow);
-//   $posterRow.appendChild($detailPoster);
-//   $detailPoster.appendChild($img);
-//   $colHalf.appendChild($rowButton);
-//   $colFull.append($button);
-//   $rowButton.appendChild($colFull);
-//   $row.appendChild($detailInfo);
-//   $detailInfo.append($h2, $star, $rating, $p);
-//   $detailInfo.appendChild($div);
-//   $date.after($dateP);
-//   $detail.appendChild($row);
-// }
