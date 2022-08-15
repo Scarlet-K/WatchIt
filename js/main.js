@@ -43,6 +43,16 @@ function getCategory(category, string1, string2) {
   });
   xhr.send();
 }
+function getDetails(id) {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://api.themoviedb.org/3/movie/' + id + '?api_key=d7a558bf3c164e7e0d8761462a9973e2&language=en-US');
+  xhr.responseType = 'json';
+  xhr.addEventListener('load', function () {
+    data.details = xhr.response;
+    renderDetails(data.details);
+  });
+  xhr.send();
+}
 function showPreviousImage(event) {
   getPreviousFilm();
   setInt();
@@ -97,6 +107,30 @@ function renderMovie(movie) {
   $a.appendChild($categoryImg);
   $colFourth.appendChild($a);
   return $colFourth;
+}
+function renderDetails(details) {
+  var $img = document.querySelector('.detail-poster > img');
+  $img.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + details.poster_path);
+  var $h2 = document.querySelector('.title');
+  $h2.textContent = details.title;
+  var $rating = document.querySelector('.rating');
+  $rating.textContent = details.vote_average.toFixed(1);
+  var $overview = document.querySelector('.overview');
+  $overview.textContent = details.overview;
+  var $date = document.querySelector('p.date');
+  $date.textContent = details.release_date;
+  var $prod = document.querySelector('p.prod');
+  var $prodText = details.production_companies[0].name;
+  for (var i = 1; i < details.production_companies.length; i++) {
+    $prodText += ', ' + details.production_companies[i].name;
+  }
+  $prod.textContent = $prodText;
+  var $genre = document.querySelector('p.genres');
+  var $text = details.genres[0].name;
+  for (var k = 1; k < details.genres.length; k++) {
+    $text += ', ' + details.genres[k].name;
+  }
+  $genre.textContent = $text;
 }
 function handleTabClick(event) {
   if (!event.target.matches('.tab')) {
@@ -157,7 +191,6 @@ function handleNav(event) {
 function addMovie(event) {
   addButton();
 }
-
 function addButton() {
   var found = false;
   for (var i = 0; i < data.watchlist.length; i++) {
@@ -194,38 +227,4 @@ function showDetails(event) {
     $home.classList.add('hidden');
     $listContainer.classList.add('hidden');
   }
-}
-function getDetails(id) {
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://api.themoviedb.org/3/movie/' + id + '?api_key=d7a558bf3c164e7e0d8761462a9973e2&language=en-US');
-  xhr.responseType = 'json';
-  xhr.addEventListener('load', function () {
-    data.details = xhr.response;
-    renderDetails(data.details);
-  });
-  xhr.send();
-}
-function renderDetails(details) {
-  var $img = document.querySelector('.detail-poster > img');
-  $img.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + details.poster_path);
-  var $h2 = document.querySelector('.title');
-  $h2.textContent = details.title;
-  var $rating = document.querySelector('.rating');
-  $rating.textContent = details.vote_average.toFixed(1);
-  var $overview = document.querySelector('.overview');
-  $overview.textContent = details.overview;
-  var $date = document.querySelector('p.date');
-  $date.textContent = details.release_date;
-  var $prod = document.querySelector('p.prod');
-  var $prodText = details.production_companies[0].name;
-  for (var i = 1; i < details.production_companies.length; i++) {
-    $prodText += ', ' + details.production_companies[i].name;
-  }
-  $prod.textContent = $prodText;
-  var $genre = document.querySelector('p.genres');
-  var $text = details.genres[0].name;
-  for (var k = 1; k < details.genres.length; k++) {
-    $text += ', ' + details.genres[k].name;
-  }
-  $genre.textContent = $text;
 }
