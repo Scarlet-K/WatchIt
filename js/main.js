@@ -357,18 +357,24 @@ function getDetails(id) {
   xhr.open('GET', 'https://api.themoviedb.org/3/movie/' + id + '?api_key=d7a558bf3c164e7e0d8761462a9973e2&language=en-US');
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
-    // var currentMovie = xhr.response;
-    // console.log(data.details);
-    // console.log(currentMovie);
+    var currentMovie = xhr.response;
+    data.details = currentMovie;
+    renderDetails(data.details);
+    // var found = false;
     // if (data.details.length === 0) {
     //   data.details.push(currentMovie);
-    // } else {
-    //   if (data.details.includes(currentMovie) === false) {
-    //     console.log('repeat');
-    //     data.details.push(currentMovie);
+    // }
+    // for (var i = 0; i < data.details.length; i++) {
+    //   if (data.details[i].id === currentMovie.id) {
+    //     found = true;
+    //     break;
+    //   } else {
+    //     found = false;
     //   }
     // }
-    // console.log(data.details);
+    // if (found === false) {
+    //   data.details.push(currentMovie);
+    // }
   });
   xhr.send();
 }
@@ -380,87 +386,71 @@ function getDetails(id) {
 // if not, add it to the array
 // if yes, do not add it to the array
 
-// function renderDetails(response) {
-// /*
-// <div class= "col-half pd-lr font-ver detail-info">
-//   <h2></h2>
-//   <i class= "fa-solid fa-star yellow"></i>
-//   <span class= "pd-lr-h"></span>
-//   <p class= "font-work grey-font"></p>
-//   <div class= "pd-tb">
-//     <h4></h4>
-//     <p class= "font-work font-s grey-font"></p>
-//     <h4></h4>
-//     <span class= "font-work font-s grey-font"></span>
-//     <h4></h4>
-//     <span class= "font-work font-s grey-font"></span>
-//   </div>
-// </div>
-// */
-//   var $row = document.createElement('div');
-//   $row.setAttribute('class', 'row pd-tb3');
-//   var $colHalf = document.createElement('div');
-//   $colHalf.setAttribute('class', 'col-half');
-//   var $posterRow = document.createElement('div');
-//   $posterRow.setAttribute('class', 'row');
-//   var $detailPoster = document.createElement('div');
-//   $detailPoster.setAttribute('class', 'col-full pd-lr detail-poster');
-//   var $img = document.createElement('img');
-//   $img.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + response.poster_path);
-//   var $rowButton = document.createElement('div');
-//   $rowButton.setAttribute('class', 'row text-end pd-tb1');
-//   var $colFull = document.createElement('div');
-//   $colFull.setAttribute('class', 'col-full pd-lr');
+function renderDetails(details) {
+/*
+<div class= "col-half pd-lr font-ver detail-info">
+  <h2></h2>
+  <i class= "fa-solid fa-star yellow"></i>
+  <span class= "pd-lr-h"></span>
+  <p class= "font-work grey-font"></p>
+  <div class= "pd-tb">
+    <h4></h4>
+    <p class= "font-work font-s grey-font"></p>
+    <h4></h4>
+    <p class= "font-work font-s grey-font"></p>
+    <h4></h4>
+    <p class= "font-work font-s grey-font"></p>
+  </div>
+</div>
+*/
+  var $row = document.querySelector('.detail > .row');
+  var $detailPoster = document.querySelector('.detail-poster');
+  var $img = document.createElement('img');
+  $img.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + details.poster_path);
+  $detailPoster.appendChild($img);
 
-//   var $detailInfo = document.createElement('div');
-//   $detailInfo.setAttribute('class', 'col-half pd-lr font-ver detail-info');
-//   var $h2 = document.createElement('h2');
-//   $h2.textContent = response.title;
-//   var $star = document.createElement('i');
-//   $star.setAttribute('class', 'fa-solid fa-star yellow');
-//   var $rating = document.createElement('span');
-//   $rating.setAttribute('class', 'pd-lr-h');
-//   $rating.textContent = response.vote_average.toFixed(1);
-//   var $p = document.createElement('p');
-//   $p.textContent = response.overview;
-//   $p.setAttribute('class', 'font-work grey-font');
-//   var $div = document.createElement('div');
-//   $div.setAttribute('class', 'pd-tb');
-//   var $date = document.createElement('h4');
-//   $date.textContent = 'Release Date';
-//   var $prod = document.createElement('h4');
-//   $prod.textContent = 'Production Companies';
-//   var $genre = document.createElement('h4');
-//   $genre.textContent = 'Genres';
-//   var $dateP = document.createElement('p');
-//   $dateP.textContent = response.release_date;
-//   $dateP.setAttribute('class', 'font-work font-s grey-font');
-//   $div.append($date, $prod, $genre);
-//   for (var i = 0; i < response.production_companies.length; i++) {
-//     var $prodP = document.createElement('p');
-//     $prodP.textContent = response.production_companies[i].name;
-//     $prodP.setAttribute('class', 'font-work font-s grey-font');
-//     $prod.after($prodP);
-//   }
-//   for (var k = 0; k < response.genres.length; k++) {
-//     var $genreP = document.createElement('p');
-//     $genreP.textContent = response.genres[k].name;
-//     $genreP.setAttribute('class', 'font-work font-s grey-font');
-//     $genre.after($genreP);
-//   }
-//   $row.appendChild($colHalf);
-//   $colHalf.appendChild($posterRow);
-//   $posterRow.appendChild($detailPoster);
-//   $detailPoster.appendChild($img);
-//   $colHalf.appendChild($rowButton);
-//   $colFull.append($button);
-//   $rowButton.appendChild($colFull);
-//   $row.appendChild($detailInfo);
-//   $detailInfo.append($h2, $star, $rating, $p);
-//   $detailInfo.appendChild($div);
-//   $date.after($dateP);
-//   $detail.appendChild($row);
-// }
+  var $detailInfo = document.createElement('div');
+  $detailInfo.setAttribute('class', 'col-half pd-lr font-ver detail-info');
+  var $h2 = document.createElement('h2');
+  $h2.textContent = details.title;
+  var $star = document.createElement('i');
+  $star.setAttribute('class', 'fa-solid fa-star yellow');
+  var $rating = document.createElement('span');
+  $rating.setAttribute('class', 'pd-lr-h');
+  $rating.textContent = details.vote_average.toFixed(1);
+  var $p = document.createElement('p');
+  $p.textContent = details.overview;
+  $p.setAttribute('class', 'font-work grey-font');
+  var $div = document.createElement('div');
+  $div.setAttribute('class', 'pd-tb');
+  var $date = document.createElement('h4');
+  $date.textContent = 'Release Date';
+  var $prod = document.createElement('h4');
+  $prod.textContent = 'Production Companies';
+  var $genre = document.createElement('h4');
+  $genre.textContent = 'Genres';
+  var $dateP = document.createElement('p');
+  $dateP.textContent = details.release_date;
+  $dateP.setAttribute('class', 'font-work font-s grey-font');
+  $div.append($date, $prod, $genre);
+  for (var i = 0; i < details.production_companies.length; i++) {
+    var $prodP = document.createElement('p');
+    $prodP.textContent = details.production_companies[i].name;
+    $prodP.setAttribute('class', 'font-work font-s grey-font');
+    $prod.after($prodP);
+  }
+  for (var k = 0; k < details.genres.length; k++) {
+    var $genreP = document.createElement('p');
+    $genreP.textContent = details.genres[k].name;
+    $genreP.setAttribute('class', 'font-work font-s grey-font');
+    $genre.after($genreP);
+  }
+
+  $detailInfo.append($h2, $star, $rating, $p);
+  $detailInfo.appendChild($div);
+  $date.after($dateP);
+  $row.appendChild($detailInfo);
+}
 
 // function renderDetails(response) {
 // /*

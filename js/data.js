@@ -2,7 +2,7 @@
 
 var data = {
   view: 'home',
-  details: [],
+  details: null,
   categories: {
     nowPlaying: [],
     topRated: [],
