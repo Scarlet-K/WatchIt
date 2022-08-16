@@ -192,27 +192,18 @@ function addMovie(event) {
   addButton();
 }
 function addButton() {
-  var found = false;
-  for (var i = 0; i < data.watchlist.length; i++) {
-    if (data.details.id === data.watchlist[i].id) {
-      found = true;
-    } else {
-      found = false;
-    }
-  }
-  if ((event.target.textContent === 'Add to My List') && (found === false)) {
-    data.watchlist.push(data.details);
+  if (event.target.textContent === 'Add to My List') {
     event.target.textContent = 'Remove';
-  } else if (event.target.textContent === 'Remove') {
+  } else {
     event.target.textContent = 'Add to My List';
-    data.watchlist.pop();
   }
 }
 
 // when the user clicks the add button the text turns to remove
 // when the user clicks the remove button the text turns to add
+
 // if the user clicks the add button the movie is added to the watchlist
-// if the user cliks the remove button the movie is deleted from the watchlist
+// if the user clicks the remove button the movie is deleted from the watchlist
 // if the movie is already in the watchlist, the user sees a remove button
 // if the movie is not in the watchlist, the user sees an add button
 
