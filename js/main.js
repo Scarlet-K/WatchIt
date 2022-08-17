@@ -20,7 +20,7 @@ $cViewContainer.addEventListener('click', showDetails);
 $carousel.addEventListener('click', showDetails);
 $leftArrow.addEventListener('click', showPreviousImage);
 $rightArrow.addEventListener('click', showNextImage);
-$addButton.addEventListener('click', addMovie);
+$addButton.addEventListener('click', handleAddButton);
 
 getCategory('nowPlaying', '', 'now_playing');
 getCategory('topRated', '', 'top_rated');
@@ -188,15 +188,25 @@ function handleNav(event) {
   }
   viewSwap(event.target.getAttribute('data-view'));
 }
-function addMovie(event) {
-  addButton();
-}
-function addButton() {
-  if (event.target.textContent === 'Add to My List') {
+
+function handleAddButton(event) {
+  // console.log('button clicked!');
+  if (data.watchlist.length === 0) {
+    data.watchlist.push(data.details);
     event.target.textContent = 'Remove';
   } else {
-    event.target.textContent = 'Add to My List';
+    for (var i = 0; i < data.watchlist.length; i++) {
+      if (event.target.textContent === 'Add to My List') {
+        // console.log(data.details);
+        data.watchlist.push(data.details);
+        event.target.textContent = 'Remove';
+      } else {
+        data.watchlist.splice(i, 1);
+        event.target.textContent = 'Add to My List';
+      }
+    }
   }
+  // console.log(data.watchlist);
 }
 
 // when the user clicks the add button the text turns to remove
@@ -206,6 +216,9 @@ function addButton() {
 // if the user clicks the remove button the movie is deleted from the watchlist
 // if the movie is already in the watchlist, the user sees a remove button
 // if the movie is not in the watchlist, the user sees an add button
+
+// OR render the buttons when the details and watchlist is rendered
+// and check whether the details id is already inside watchlist!
 
 function showDetails(event) {
   if (!event.target.tagName === ('IMG')) {
