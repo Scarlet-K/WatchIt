@@ -43,6 +43,7 @@ function getCategory(category, string1, string2) {
   });
   xhr.send();
 }
+
 function getDetails(id) {
   var xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://api.themoviedb.org/3/movie/' + id + '?api_key=d7a558bf3c164e7e0d8761462a9973e2&language=en-US');
@@ -61,6 +62,7 @@ function showNextImage(event) {
   getNextFilm();
   setInt();
 }
+
 function getPreviousFilm() {
   if (index !== 0) {
     index--;
@@ -72,6 +74,7 @@ function getPreviousFilm() {
     $carouselImg.setAttribute('id', data.categories.nowPlaying[index].id);
   }
 }
+
 function getNextFilm() {
   if (index < data.categories.nowPlaying.length - 1) {
     index++;
@@ -83,10 +86,12 @@ function getNextFilm() {
     $carouselImg.setAttribute('id', data.categories.nowPlaying[0].id);
   }
 }
+
 function setInt() {
   clearInterval(intervalID);
   intervalID = setInterval(getNextFilm, 3000);
 }
+
 function renderMovie(movie) {
 /*
 <div class= "col-fourth pd">
@@ -108,7 +113,15 @@ function renderMovie(movie) {
   $colFourth.appendChild($a);
   return $colFourth;
 }
+
 function renderDetails(details) {
+  for (var b = 0; b < data.watchlist.length; b++) {
+    if (details.id === data.watchlist[b].id) {
+      $addButton.textContent = 'Remove';
+    } else {
+      $addButton.textContent = 'Add to My List';
+    }
+  }
   var $img = document.querySelector('.detail-poster > img');
   $img.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + details.poster_path);
   var $h2 = document.querySelector('.title');
@@ -132,6 +145,7 @@ function renderDetails(details) {
   }
   $genre.textContent = $text;
 }
+
 function handleTabClick(event) {
   if (!event.target.matches('.tab')) {
     return;
@@ -166,6 +180,7 @@ function handleTabClick(event) {
     getCategory(targetData, '', 'upcoming');
   }
 }
+
 function viewSwap(string) {
   for (var i = 0; i < $views.length; i++) {
     if ($views[i].getAttribute('data-view') === string) {
@@ -176,6 +191,7 @@ function viewSwap(string) {
   }
   data.view = string;
 }
+
 function handleNav(event) {
   if (event.target.getAttribute('data-view') === 'list') {
     while ($listContainer.firstChild) {
@@ -190,35 +206,18 @@ function handleNav(event) {
 }
 
 function handleAddButton(event) {
-  // console.log('button clicked!');
-  if (data.watchlist.length === 0) {
+  if ((event.target.textContent === 'Add to My List')) {
     data.watchlist.push(data.details);
     event.target.textContent = 'Remove';
   } else {
     for (var i = 0; i < data.watchlist.length; i++) {
-      if (event.target.textContent === 'Add to My List') {
-        // console.log(data.details);
-        data.watchlist.push(data.details);
-        event.target.textContent = 'Remove';
-      } else {
+      if ((event.target.textContent === 'Remove') && (data.watchlist.some(() => data.details.id === data.watchlist[i].id))) {
         data.watchlist.splice(i, 1);
         event.target.textContent = 'Add to My List';
       }
     }
   }
-  // console.log(data.watchlist);
 }
-
-// when the user clicks the add button the text turns to remove
-// when the user clicks the remove button the text turns to add
-
-// if the user clicks the add button the movie is added to the watchlist
-// if the user clicks the remove button the movie is deleted from the watchlist
-// if the movie is already in the watchlist, the user sees a remove button
-// if the movie is not in the watchlist, the user sees an add button
-
-// OR render the buttons when the details and watchlist is rendered
-// and check whether the details id is already inside watchlist!
 
 function showDetails(event) {
   if (!event.target.tagName === ('IMG')) {
