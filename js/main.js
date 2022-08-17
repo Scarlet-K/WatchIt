@@ -20,7 +20,7 @@ $cViewContainer.addEventListener('click', showDetails);
 $carousel.addEventListener('click', showDetails);
 $leftArrow.addEventListener('click', showPreviousImage);
 $rightArrow.addEventListener('click', showNextImage);
-$addButton.addEventListener('click', handleAddButton);
+$addButton.addEventListener('click', handleAdd);
 
 getCategory('nowPlaying', '', 'now_playing');
 getCategory('topRated', '', 'top_rated');
@@ -146,6 +146,59 @@ function renderDetails(details) {
   $genre.textContent = $text;
 }
 
+function renderWatchlist(watchlist) {
+  /*
+<div class= "col-sixth pd">
+  <a href= "#" class= "pd-0">
+    <img src= "" class= "border-r" id= "">
+  </a>
+  <button>Remove</button>
+</div>
+*/
+  var $colFourth = document.createElement('div');
+  var $a = document.createElement('a');
+  var $categoryImg = document.createElement('img');
+  // var $removeButton = document.createElement('button');
+  $colFourth.setAttribute('class', 'col-sixth pd');
+  $a.setAttribute('href', '#');
+  $a.setAttribute('class', 'pd-0');
+  $categoryImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + watchlist.poster_path);
+  $categoryImg.setAttribute('class', 'border-r');
+  $categoryImg.setAttribute('id', watchlist.id);
+  // $removeButton.textContent = 'Remove';
+  // $removeButton.addEventListener('click', handleRemove);
+  $a.appendChild($categoryImg);
+  $colFourth.appendChild($a);
+  // $colFourth.appendChild($removeButton);
+  return $colFourth;
+}
+
+// function handleRemove(event) {
+//   for (var i = 0; i < data.watchlist.length; i++) {
+//     if ((event.target.textContent === 'Remove') && (data.details.id === data.watchlist[i].id)) {
+//       data.watchlist.splice(i, 1);
+//     }
+//   }
+// }
+
+// this remove button is on the watchlist page
+// when the user clicks it, the detail object is deleted from the watchlist array
+// and deleted from the DOM tree
+
+function handleAdd(event) {
+  if (event.target.textContent === 'Add to My List') {
+    data.watchlist.push(data.details);
+    event.target.textContent = 'Remove';
+  } else {
+    for (var i = 0; i < data.watchlist.length; i++) {
+      if ((event.target.textContent === 'Remove') && (data.details.id === data.watchlist[i].id)) {
+        data.watchlist.splice(i, 1);
+        event.target.textContent = 'Add to My List';
+      }
+    }
+  }
+}
+
 function handleTabClick(event) {
   if (!event.target.matches('.tab')) {
     return;
@@ -198,25 +251,11 @@ function handleNav(event) {
       $listContainer.removeChild($listContainer.firstChild);
     }
     for (var i = 0; i < data.watchlist.length; i++) {
-      var $MyList = renderMovie(data.watchlist[i]);
+      var $MyList = renderWatchlist(data.watchlist[i]);
       $listContainer.appendChild($MyList);
     }
   }
   viewSwap(event.target.getAttribute('data-view'));
-}
-
-function handleAddButton(event) {
-  if ((event.target.textContent === 'Add to My List')) {
-    data.watchlist.push(data.details);
-    event.target.textContent = 'Remove';
-  } else {
-    for (var i = 0; i < data.watchlist.length; i++) {
-      if ((event.target.textContent === 'Remove') && (data.watchlist.some(() => data.details.id === data.watchlist[i].id))) {
-        data.watchlist.splice(i, 1);
-        event.target.textContent = 'Add to My List';
-      }
-    }
-  }
 }
 
 function showDetails(event) {
