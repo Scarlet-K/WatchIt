@@ -181,7 +181,7 @@ h4 ~ p {
   color: yellow;
 }
 
-.add-button {
+.button {
   border: none;
   border-radius: 0.2rem;
   background-color: #242429;
