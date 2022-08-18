@@ -12,7 +12,7 @@ var intervalID = setInterval(getNextFilm, 3000);
 var index = 0;
 var $leftArrow = document.querySelector('.fa-chevron-left');
 var $rightArrow = document.querySelector('.fa-chevron-right');
-var $addButton = document.querySelector('.add-button');
+var $addButton = document.querySelector('.button');
 $nav.addEventListener('click', handleNav);
 $tabContainer.addEventListener('click', handleTabClick);
 $listContainer.addEventListener('click', showDetails);
@@ -150,7 +150,7 @@ function renderWatchlist(watchlist) {
   $categoryImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + watchlist.poster_path);
   $categoryImg.setAttribute('class', 'border-r');
   $categoryImg.setAttribute('id', watchlist.id);
-  $buttonRow.setAttribute('class', 'row justify-center pd-lr');
+  $buttonRow.setAttribute('class', 'row justify-end');
   $removeButton.textContent = 'Remove';
   $removeButton.setAttribute('id', watchlist.id);
   $removeButton.setAttribute('class', 'button');
