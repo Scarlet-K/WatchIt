@@ -50,46 +50,9 @@ function getDetails(id) {
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
     data.details = xhr.response;
-    renderDetails(data.details);
+    fillDetails(data.details);
   });
   xhr.send();
-}
-function showPreviousImage(event) {
-  getPreviousFilm();
-  setInt();
-}
-function showNextImage(event) {
-  getNextFilm();
-  setInt();
-}
-
-function getPreviousFilm() {
-  if (index !== 0) {
-    index--;
-    $carouselImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + data.categories.nowPlaying[index].poster_path);
-    $carouselImg.setAttribute('id', data.categories.nowPlaying[index].id);
-  } else {
-    index = data.categories.nowPlaying.length - 1;
-    $carouselImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + data.categories.nowPlaying[index].poster_path);
-    $carouselImg.setAttribute('id', data.categories.nowPlaying[index].id);
-  }
-}
-
-function getNextFilm() {
-  if (index < data.categories.nowPlaying.length - 1) {
-    index++;
-    $carouselImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + data.categories.nowPlaying[index].poster_path);
-    $carouselImg.setAttribute('id', data.categories.nowPlaying[index].id);
-  } else {
-    index = 0;
-    $carouselImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + data.categories.nowPlaying[0].poster_path);
-    $carouselImg.setAttribute('id', data.categories.nowPlaying[0].id);
-  }
-}
-
-function setInt() {
-  clearInterval(intervalID);
-  intervalID = setInterval(getNextFilm, 3000);
 }
 
 function renderMovie(movie) {
@@ -114,7 +77,7 @@ function renderMovie(movie) {
   return $colFourth;
 }
 
-function renderDetails(details) {
+function fillDetails(details) {
   for (var b = 0; b < data.watchlist.length; b++) {
     if (details.id === data.watchlist[b].id) {
       $addButton.textContent = 'Remove';
@@ -152,7 +115,9 @@ function renderWatchlist(watchlist) {
   <a href= "#" class= "pd-0">
     <img src= "" class= "border-r" id= "">
   </a>
-  <button>Remove</button>
+  <div class= "row justify-end pd-lr">
+    <button>Remove</button>
+  </div>
 </div>
 */
   var $colFourth = document.createElement('div');
@@ -199,6 +164,30 @@ function handleAdd(event) {
   }
 }
 
+function viewSwap(string) {
+  for (var i = 0; i < $views.length; i++) {
+    if ($views[i].getAttribute('data-view') === string) {
+      $views[i].classList.remove('hidden');
+    } else {
+      $views[i].classList.add('hidden');
+    }
+  }
+  data.view = string;
+}
+
+function handleNav(event) {
+  if (event.target.getAttribute('data-view') === 'list') {
+    while ($listContainer.firstChild) {
+      $listContainer.removeChild($listContainer.firstChild);
+    }
+    for (var i = 0; i < data.watchlist.length; i++) {
+      var $MyList = renderWatchlist(data.watchlist[i]);
+      $listContainer.appendChild($MyList);
+    }
+  }
+  viewSwap(event.target.getAttribute('data-view'));
+}
+
 function handleTabClick(event) {
   if (!event.target.matches('.tab')) {
     return;
@@ -234,39 +223,51 @@ function handleTabClick(event) {
   }
 }
 
-function viewSwap(string) {
-  for (var i = 0; i < $views.length; i++) {
-    if ($views[i].getAttribute('data-view') === string) {
-      $views[i].classList.remove('hidden');
-    } else {
-      $views[i].classList.add('hidden');
-    }
-  }
-  data.view = string;
-}
-
-function handleNav(event) {
-  if (event.target.getAttribute('data-view') === 'list') {
-    while ($listContainer.firstChild) {
-      $listContainer.removeChild($listContainer.firstChild);
-    }
-    for (var i = 0; i < data.watchlist.length; i++) {
-      var $MyList = renderWatchlist(data.watchlist[i]);
-      $listContainer.appendChild($MyList);
-    }
-  }
-  viewSwap(event.target.getAttribute('data-view'));
-}
-
 function showDetails(event) {
   if (!event.target.tagName === ('IMG')) {
     return;
   }
-  if (event.target.tagName === ('IMG')) {
-    var targetId = event.target.id;
-    getDetails(targetId);
-    $detail.classList.remove('hidden');
-    $home.classList.add('hidden');
-    $listContainer.classList.add('hidden');
+  var targetId = event.target.id;
+  getDetails(targetId);
+  $detail.classList.remove('hidden');
+  $home.classList.add('hidden');
+  $listContainer.classList.add('hidden');
+}
+
+function showPreviousImage(event) {
+  getPreviousFilm();
+  setInt();
+}
+function showNextImage(event) {
+  getNextFilm();
+  setInt();
+}
+
+function getPreviousFilm() {
+  if (index !== 0) {
+    index--;
+    $carouselImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + data.categories.nowPlaying[index].poster_path);
+    $carouselImg.setAttribute('id', data.categories.nowPlaying[index].id);
+  } else {
+    index = data.categories.nowPlaying.length - 1;
+    $carouselImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + data.categories.nowPlaying[index].poster_path);
+    $carouselImg.setAttribute('id', data.categories.nowPlaying[index].id);
   }
+}
+
+function getNextFilm() {
+  if (index < data.categories.nowPlaying.length - 1) {
+    index++;
+    $carouselImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + data.categories.nowPlaying[index].poster_path);
+    $carouselImg.setAttribute('id', data.categories.nowPlaying[index].id);
+  } else {
+    index = 0;
+    $carouselImg.setAttribute('src', 'https://image.tmdb.org/t/p/w500/' + data.categories.nowPlaying[0].poster_path);
+    $carouselImg.setAttribute('id', data.categories.nowPlaying[0].id);
+  }
+}
+
+function setInt() {
+  clearInterval(intervalID);
+  intervalID = setInterval(getNextFilm, 3000);
 }
