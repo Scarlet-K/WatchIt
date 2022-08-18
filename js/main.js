@@ -66,6 +66,7 @@ function showDetails(event) {
     $home.classList.add('hidden');
     $listContainer.classList.add('hidden');
   }
+  data.view = 'details';
 }
 
 function renderMovie(movie) {
