@@ -1,7 +1,7 @@
-var $home = document.querySelector('.home');
+// var $home = document.querySelector('.home');
 var $nav = document.querySelector('.nav');
 var $views = document.querySelectorAll('.view');
-var $detail = document.querySelector('.detail');
+// var $detail = document.querySelector('.detail');
 var $tabContainer = document.querySelector('.tab-container');
 var $listContainer = document.querySelector('.list-container');
 var $cViewContainer = document.querySelector('.c-view-container');
@@ -62,11 +62,8 @@ function showDetails(event) {
   if (event.target.tagName === ('IMG')) {
     var targetId = event.target.id;
     getDetails(targetId);
-    $detail.classList.remove('hidden');
-    $home.classList.add('hidden');
-    $listContainer.classList.add('hidden');
+    viewSwap('detail');
   }
-  data.view = 'details';
 }
 
 function renderMovie(movie) {
