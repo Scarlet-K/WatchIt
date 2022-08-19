@@ -13,9 +13,9 @@ var data = {
   watchlist: []
 };
 
-var previousFilm = localStorage.getItem('watchit-local-storage');
-if (previousFilm !== null) {
-  data = JSON.parse(previousFilm);
+var previousData = localStorage.getItem('watchit-local-storage');
+if (previousData !== null) {
+  data = JSON.parse(previousData);
 }
 
 window.addEventListener('beforeunload', handleBeforeUnload);

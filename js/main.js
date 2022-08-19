@@ -20,7 +20,7 @@ $cViewContainer.addEventListener('click', showDetails);
 $carousel.addEventListener('click', showDetails);
 $leftArrow.addEventListener('click', showPreviousImage);
 $rightArrow.addEventListener('click', showNextImage);
-$addButton.addEventListener('click', handleAdd);
+$addButton.addEventListener('click', handleDetailButton);
 
 getCategory('nowPlaying', '', 'now_playing');
 getCategory('topRated', '', 'top_rated');
@@ -117,7 +117,7 @@ function renderWatchlist(watchlistMovie) {
   $removeButton.textContent = 'Remove';
   $removeButton.setAttribute('id', watchlistMovie.id);
   $removeButton.setAttribute('class', 'button');
-  $removeButton.addEventListener('click', handleRemove);
+  $removeButton.addEventListener('click', handleWatchlistButton);
   $a.appendChild($categoryImg);
   $colFourth.appendChild($a);
   $buttonRow.appendChild($removeButton);
@@ -155,7 +155,7 @@ function fillDetails(details) {
   $genre.textContent = $text;
 }
 
-function handleRemove(event) {
+function handleWatchlistButton(event) {
   for (var i = 0; i < data.watchlist.length; i++) {
     if ((data.watchlist[i].id.toString() === event.target.id)) {
       data.watchlist.splice(i, 1);
@@ -170,7 +170,7 @@ function handleRemove(event) {
   }
 }
 
-function handleAdd(event) {
+function handleDetailButton(event) {
   if ($addButton.textContent === 'Add to My List') {
     data.watchlist.push(data.details);
     $addButton.textContent = 'Remove';
@@ -196,6 +196,9 @@ function viewSwap(string) {
 }
 
 function handleNav(event) {
+  if (event.target.tagName !== 'A') {
+    return;
+  }
   if (event.target.getAttribute('data-view') === 'list') {
     while ($listContainer.firstChild) {
       $listContainer.removeChild($listContainer.firstChild);
