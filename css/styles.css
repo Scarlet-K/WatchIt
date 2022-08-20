@@ -8,19 +8,35 @@ header {
   background-color: #343a40;
 }
 
+h4,
+h4 ~ p {
+  margin: 0.5rem 0;
+}
+
 a {
   padding: 0 1rem;
   text-decoration: none;
   color: white;
 }
 
-div.tab-container > a {
+.nav > a {
+  margin-right: 1.5rem;
+  padding: 0;
+  text-decoration: none;
+  color: white;
+}
+
+.tab-container > a {
   padding: 0 1rem;
   text-decoration: none;
   color: grey;
 }
 
-div.tab-container > a:hover {
+.tab-container > a:hover {
+  color: white;
+}
+
+.tab-container > a.active {
   color: white;
 }
 
@@ -33,6 +49,7 @@ img {
   position: fixed;
   width: 100%;
   z-index: 1;
+  top: 0;
 }
 
 .rel {
@@ -72,10 +89,6 @@ img {
   margin: auto;
 }
 
-div.tab-container > a.active {
-  color: white;
-}
-
 .align-center {
   align-items: center;
 }
@@ -85,15 +98,11 @@ div.tab-container > a.active {
 }
 
 .justify-end {
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .space-evenly {
   justify-content: space-evenly;
-}
-
-.text-end {
-  text-align: end;
 }
 
 .chevron {
@@ -112,14 +121,14 @@ div.tab-container > a.active {
 
 .pos-abs-left {
   position: absolute;
+  left: 0.01rem;
   top: 45%;
-  left: 0.1rem;
 }
 
 .pos-abs-right {
   position: absolute;
+  right: 0.01rem;
   top: 45%;
-  right: 0.1rem;
 }
 
 .pos-abs-left:hover,
@@ -172,20 +181,19 @@ div.tab-container > a.active {
   margin: 0;
 }
 
-.border-r {
-  border-radius: 0.3rem;
+.margin-tb3 {
+  margin: 3rem 0;
 }
 
-h4,
-h4 ~ p {
-  margin: 0.5rem 0;
+.border-r {
+  border-radius: 0.3rem;
 }
 
 .yellow {
   color: yellow;
 }
 
-.add-button {
+.button {
   border: none;
   border-radius: 0.2rem;
   background-color: #242429;
