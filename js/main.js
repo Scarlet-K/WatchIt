@@ -1,7 +1,5 @@
-// var $home = document.querySelector('.home');
 var $nav = document.querySelector('.nav');
 var $views = document.querySelectorAll('.view');
-// var $detail = document.querySelector('.detail');
 var $tabContainer = document.querySelector('.tab-container');
 var $listContainer = document.querySelector('.list-container');
 var $cViewContainer = document.querySelector('.c-view-container');
