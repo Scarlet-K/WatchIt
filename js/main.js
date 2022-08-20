@@ -21,7 +21,7 @@ $rightArrow.addEventListener('click', showNextImage);
 $addButton.addEventListener('click', handleDetailButton);
 
 getCategory('nowPlaying', '', 'now_playing');
-getCategory('topRated', '', 'top_rated');
+getCategory('trending', 'trending/', 'week');
 
 function getCategory(category, string1, string2) {
   var xhr = new XMLHttpRequest();
@@ -34,7 +34,6 @@ function getCategory(category, string1, string2) {
       $carouselImg.setAttribute('id', data.categories.nowPlaying[0].id);
     } else {
       for (var i = 0; i < data.categories[category].length; i++) {
-        renderMovie(data.categories[category][i]);
         $cViewContainer.append(renderMovie(data.categories[category][i]));
       }
     }
@@ -219,25 +218,16 @@ function handleTabClick(event) {
   }
   var targetData = event.target.getAttribute('data-view');
   if (targetData === 'topRated') {
-    while ($cViewContainer.firstChild) {
-      $cViewContainer.removeChild($cViewContainer.firstChild);
-    }
     getCategory(targetData, '', 'top_rated');
   } else if (targetData === 'trending') {
-    while ($cViewContainer.firstChild) {
-      $cViewContainer.removeChild($cViewContainer.firstChild);
-    }
     getCategory(targetData, 'trending/', 'week');
   } else if (targetData === 'popular') {
-    while ($cViewContainer.firstChild) {
-      $cViewContainer.removeChild($cViewContainer.firstChild);
-    }
     getCategory(targetData, '', 'popular');
   } else if (targetData === 'upcoming') {
-    while ($cViewContainer.firstChild) {
-      $cViewContainer.removeChild($cViewContainer.firstChild);
-    }
     getCategory(targetData, '', 'upcoming');
+  }
+  while ($cViewContainer.firstChild) {
+    $cViewContainer.removeChild($cViewContainer.firstChild);
   }
 }
 
