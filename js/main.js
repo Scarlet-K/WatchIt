@@ -48,6 +48,7 @@ function getDetails(id) {
   xhr.addEventListener('load', function () {
     data.details = xhr.response;
     fillDetails(data.details);
+    viewSwap('detail');
   });
   xhr.send();
 }
@@ -59,7 +60,6 @@ function showDetails(event) {
   if (event.target.tagName === ('IMG')) {
     var targetId = event.target.id;
     getDetails(targetId);
-    viewSwap('detail');
   }
 }
 

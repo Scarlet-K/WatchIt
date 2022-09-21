@@ -1,7 +1,6 @@
 /* exported data */
 
 var data = {
-  view: 'home',
   details: null,
   categories: {
     nowPlaying: [],
